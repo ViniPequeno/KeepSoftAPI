@@ -5,8 +5,10 @@
  */
 package com.br.nescaupower.KeepSoftAPI.Models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
@@ -28,9 +30,14 @@ public class Usuario implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(unique = true, nullable = false)
     private String login;
+    @Column(unique = true, nullable = false)
     private String email;
+    @Column(nullable = false)
     private String nome;
+    @Column(nullable = false)
+    @JsonIgnore
     private String senha;
     private String telefone;
 
