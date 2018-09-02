@@ -6,6 +6,8 @@
 package com.br.nescaupower.KeepSoftAPI.Controller;
 
 import com.br.nescaupower.KeepSoftAPI.Exception.ResourceNotFoundException;
+import com.br.nescaupower.KeepSoftAPI.Models.Auxiliares.AlterarSenha;
+import com.br.nescaupower.KeepSoftAPI.Models.Auxiliares.Login;
 import com.br.nescaupower.KeepSoftAPI.Models.Usuario;
 import com.br.nescaupower.KeepSoftAPI.Repository.UsuarioRepository;
 import com.br.nescaupower.KeepSoftAPI.Utils.GeneratedHashPassword;
@@ -56,6 +58,22 @@ public class UsuarioController  {
         }
     }
     
+    @PostMapping("/usuarios/login")
+    public ResponseEntity<Usuario> signIn(@Valid @RequestBody Login login){
+        try {
+            Usuario usuario = usuarioRepository.findByLogin(login.getLogin());
+            login.setSenha(GeneratedHashPassword.generateHash(login.getSenha()));
+            
+            if(usuario.getSenha().equals(login.getSenha())){
+                return ResponseEntity.ok(usuario);
+            }else{
+                return ResponseEntity.ok(null);
+            }
+        } catch (NoSuchAlgorithmException ex) {
+            return ResponseEntity.badRequest().body(null);
+        }
+    }
+    
     @PutMapping("/usuarios/{id}")
     public ResponseEntity<Usuario> atualizarUsuario(@PathVariable(value = "id") Long usuarioId, 
             @Valid @RequestBody Usuario usuarioUpdate){
@@ -67,6 +85,24 @@ public class UsuarioController  {
         usuario.setTelefone(usuarioUpdate.getTelefone());
         
         return ResponseEntity.ok(usuarioRepository.save(usuario));
+    }
+    
+    @PutMapping("/usuarios/alterarSenha")
+    public ResponseEntity<Usuario> atualizarSenhaUsuario(@Valid @RequestBody AlterarSenha alterarSenha){
+        Usuario usuario = usuarioRepository.findById(alterarSenha.getId()).
+                orElseThrow(() -> new ResourceNotFoundException("Usuario", "usuario", alterarSenha.getId()));
+
+        
+        try {
+            alterarSenha.setSenha(GeneratedHashPassword.generateHash(alterarSenha.getSenha()));
+            
+            usuario.setSenha(alterarSenha.getSenha());
+
+            return ResponseEntity.ok(usuarioRepository.save(usuario));
+        } catch (NoSuchAlgorithmException ex) {
+            return ResponseEntity.badRequest().body(null);
+        }
+        
     }
     
     @DeleteMapping("/usuarios/{id}")
