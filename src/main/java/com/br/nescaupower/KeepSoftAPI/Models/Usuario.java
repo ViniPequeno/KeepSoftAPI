@@ -9,12 +9,14 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -29,7 +31,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 public class Usuario implements Serializable{
     
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @Column(unique = true, nullable = false)
     private String login;
@@ -41,6 +43,9 @@ public class Usuario implements Serializable{
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String senha;
     private String telefone;
+    
+    @OneToMany(mappedBy = "usuarioAdm")
+    private List<Projeto> projetos;
 
     public Usuario() {
     }
@@ -101,6 +106,14 @@ public class Usuario implements Serializable{
 
     public void setTelefone(String telefone) {
         this.telefone = telefone;
+    }
+
+    public List<Projeto> getProjetos() {
+        return projetos;
+    }
+
+    public void setProjetos(List<Projeto> projetos) {
+        this.projetos = projetos;
     }
     
     
