@@ -29,7 +29,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 public class Projeto implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long codigo;
+    private Long codigo;
     private String nome;
     private String descricao;
     @Temporal(javax.persistence.TemporalType.DATE)
@@ -45,7 +45,7 @@ public class Projeto implements Serializable{
     public Projeto() {
     }
 
-    public Projeto(long codigo, String nome, String descricao, Date dataCriacao, Date dataFinalizacao, Date dataPrevFinalizacao, Usuario usuarioAdm) {
+    public Projeto(Long codigo, String nome, String descricao, Date dataCriacao, Date dataFinalizacao, Date dataPrevFinalizacao, Usuario usuarioAdm) {
         this.codigo = codigo;
         this.nome = nome;
         this.descricao = descricao;
@@ -57,11 +57,11 @@ public class Projeto implements Serializable{
 
     
     
-    public long getCodigo() {
+    public Long getCodigo() {
         return codigo;
     }
 
-    public void setCodigo(long codigo) {
+    public void setCodigo(Long codigo) {
         this.codigo = codigo;
     }
 
