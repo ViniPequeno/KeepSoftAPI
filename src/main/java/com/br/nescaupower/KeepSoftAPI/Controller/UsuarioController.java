@@ -32,23 +32,23 @@ import org.springframework.web.bind.annotation.RestController;
  * @author vinic
  */
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/usuarios")
 public class UsuarioController  {
     @Autowired
     UsuarioRepository usuarioRepository;
     
-    @GetMapping("/usuarios")
+    @GetMapping
     public List<Usuario> getAllUsuarios(){
         return usuarioRepository.findAll();
     }
     
-    @GetMapping("/usuarios/{id}")
+    @GetMapping("{id}")
     public Usuario getUsuario(@PathVariable(value = "id") Long usuarioId){
         return (Usuario) usuarioRepository.findById(usuarioId)
                 .orElseThrow(() -> new ResourceNotFoundException("Usuario", "id", usuarioId));
     }
     
-    @PostMapping("/usuarios")
+    @PostMapping
     public ResponseEntity<Usuario> inserirUsuario(@Valid @RequestBody Usuario usuario){
         try {
             usuario.setSenha(GeneratedHashPassword.generateHash(usuario.getSenha()));   
@@ -58,7 +58,7 @@ public class UsuarioController  {
         }
     }
     
-    @PostMapping("/usuarios/login")
+    @PostMapping("/login")
     public ResponseEntity<Usuario> signIn(@Valid @RequestBody Login login){
         try {
             Usuario usuario = usuarioRepository.findByLogin(login.getLogin());
@@ -74,7 +74,7 @@ public class UsuarioController  {
         }
     }
     
-    @PutMapping("/usuarios/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<Usuario> atualizarUsuario(@PathVariable(value = "id") Long usuarioId, 
             @Valid @RequestBody Usuario usuarioUpdate){
         Usuario usuario = usuarioRepository.findById(usuarioId).
@@ -87,7 +87,7 @@ public class UsuarioController  {
         return ResponseEntity.ok(usuarioRepository.save(usuario));
     }
     
-    @PutMapping("/usuarios/alterarSenha")
+    @PutMapping("/alterarSenha")
     public ResponseEntity<Usuario> atualizarSenhaUsuario(@Valid @RequestBody AlterarSenha alterarSenha){
         Usuario usuario = usuarioRepository.findById(alterarSenha.getId()).
                 orElseThrow(() -> new ResourceNotFoundException("Usuario", "usuario", alterarSenha.getId()));
@@ -105,7 +105,7 @@ public class UsuarioController  {
         
     }
     
-    @DeleteMapping("/usuarios/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteUsuario(@PathVariable(value = "id")  Long usuarioId){
         Usuario usuario = usuarioRepository.findById(usuarioId)
                 .orElseThrow(() -> new ResourceNotFoundException("Usuario", "id", usuarioId));

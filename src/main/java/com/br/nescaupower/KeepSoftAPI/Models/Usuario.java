@@ -17,6 +17,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -46,6 +47,8 @@ public class Usuario implements Serializable{
     
     @OneToMany(mappedBy = "usuarioAdm")
     private List<Projeto> projetos;
+    @OneToMany(mappedBy = "usuario")
+    private List<Perfil> perfils;
 
     public Usuario() {
     }
@@ -114,6 +117,14 @@ public class Usuario implements Serializable{
 
     public void setProjetos(List<Projeto> projetos) {
         this.projetos = projetos;
+    }
+
+    public List<Perfil> getPerfils() {
+        return perfils;
+    }
+
+    public void setPerfils(List<Perfil> perfils) {
+        this.perfils = perfils;
     }
     
     

@@ -20,26 +20,22 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 /**
  *
- * @author vinic
+ * @author developer
  */
 @Entity
-@Table(name ="sprint")
+@Table(name = "notificacao")
 @EntityListeners(AuditingEntityListener.class)
 @JsonIgnoreProperties(value = {"createdAt", "updatedAt"}, allowGetters = true)
-public class Sprint implements Serializable{
+public class Notificacao implements Serializable{
+    
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
-    private String titulo;
-    private String descricao;
-    @Temporal(javax.persistence.TemporalType.DATE)
-    private Date dataInicio;
-    @Temporal(javax.persistence.TemporalType.DATE)
-    private Date dataFim;
-    
     @ManyToOne
-    private Projeto projeto;
+    private Usuario usuario;
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Date dataCriacao;
 
     public Long getId() {
         return id;
@@ -49,45 +45,23 @@ public class Sprint implements Serializable{
         this.id = id;
     }
 
-    public String getTitulo() {
-        return titulo;
+    public Usuario getUsuario() {
+        return usuario;
     }
 
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
-    public String getDescricao() {
-        return descricao;
+    public Date getDataCriacao() {
+        return dataCriacao;
     }
 
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
+    public void setDataCriacao(Date dataCriacao) {
+        this.dataCriacao = dataCriacao;
     }
-
-    public Date getDataInicio() {
-        return dataInicio;
-    }
-
-    public void setDataInicio(Date dataInicio) {
-        this.dataInicio = dataInicio;
-    }
-
-    public Date getDataFim() {
-        return dataFim;
-    }
-
-    public void setDataFim(Date dataFim) {
-        this.dataFim = dataFim;
-    }
-
-    public Projeto getProjeto() {
-        return projeto;
-    }
-
-    public void setProjeto(Projeto projeto) {
-        this.projeto = projeto;
-    }
+    
+    
     
     
 }

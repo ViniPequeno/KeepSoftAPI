@@ -8,12 +8,15 @@ package com.br.nescaupower.KeepSoftAPI.Models;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -41,6 +44,10 @@ public class Projeto implements Serializable{
     
     @ManyToOne
     private Usuario usuarioAdm;
+    @OneToMany(mappedBy = "projeto")
+    private List<Perfil> perfils;
+    @OneToMany(mappedBy = "projeto")
+    private List<Sprint> sprints;
 
     public Projeto() {
     }
@@ -111,6 +118,22 @@ public class Projeto implements Serializable{
 
     public void setUsuarioAdm(Usuario usuarioAdm) {
         this.usuarioAdm = usuarioAdm;
+    }
+
+    public List<Perfil> getPerfils() {
+        return perfils;
+    }
+
+    public void setPerfils(List<Perfil> perfils) {
+        this.perfils = perfils;
+    }
+
+    public List<Sprint> getSprints() {
+        return sprints;
+    }
+
+    public void setSprints(List<Sprint> sprints) {
+        this.sprints = sprints;
     }
     
     

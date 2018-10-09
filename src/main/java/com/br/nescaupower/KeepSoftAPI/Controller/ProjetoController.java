@@ -8,10 +8,7 @@ package com.br.nescaupower.KeepSoftAPI.Controller;
 import com.br.nescaupower.KeepSoftAPI.Exception.ResourceNotFoundException;
 import com.br.nescaupower.KeepSoftAPI.Models.Perfil;
 import com.br.nescaupower.KeepSoftAPI.Models.Projeto;
-import com.br.nescaupower.KeepSoftAPI.Models.Usuario;
-import com.br.nescaupower.KeepSoftAPI.Repository.PerfillRepository;
 import com.br.nescaupower.KeepSoftAPI.Repository.ProjetoRepository;
-import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,38 +21,39 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import com.br.nescaupower.KeepSoftAPI.Repository.PerfilRepository;
 
 /**
  *
  * @author vinic
  */
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/projetos")
 public class ProjetoController {
     @Autowired
     ProjetoRepository projetoRepository;
     
     @Autowired
-    PerfillRepository perfillRepository;
+    PerfilRepository perfillRepository;
 
-    @GetMapping("/projetos")
+    @GetMapping
     public List<Projeto> getAllProjetos(){
         return projetoRepository.findAll();
     }
     
-    @GetMapping("/projetos/{id}")
+    @GetMapping("/{id}")
     public Projeto getProjeto(@PathVariable(value = "id") Long projetoId){
         return (Projeto) projetoRepository.findById(projetoId)
                 .orElseThrow(() -> new ResourceNotFoundException("Projeto", "id", projetoId));
     }
     
-    @PostMapping("/projetos")
+    @PostMapping
     public ResponseEntity<Projeto> inserirProjeto(@Valid @RequestBody Projeto projeto){
         return ResponseEntity.ok(projetoRepository.save(projeto));
     }
 
     
-    @PutMapping("/projetos/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<Projeto> atualizarProjeto(@PathVariable(value = "id") Long projetoId, 
             @Valid @RequestBody Projeto projetoUpdate){
         Projeto projeto = projetoRepository.findById(projetoId).
@@ -70,7 +68,7 @@ public class ProjetoController {
         return ResponseEntity.ok(projetoRepository.save(projeto));
     }
     
-    @DeleteMapping("/projetos/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteProjeto(@PathVariable(value = "id")  Long projetoId){
         Projeto projeto = projetoRepository.findById(projetoId)
                 .orElseThrow(() -> new ResourceNotFoundException("Projeto", "id", projetoId));
@@ -80,7 +78,7 @@ public class ProjetoController {
         return  ResponseEntity.ok().build();
     }
     
-    @PostMapping("/projetos/equipe")
+    @PostMapping("/equipe")
     public ResponseEntity<Perfil> integrarEquipe(@Valid @RequestBody Perfil perfil){
         return ResponseEntity.ok(perfillRepository.save(perfil));
     }

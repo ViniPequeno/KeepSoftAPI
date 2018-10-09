@@ -20,26 +20,26 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 /**
  *
- * @author vinic
+ * @author developer
  */
 @Entity
-@Table(name ="sprint")
+@Table(name = "convite")
 @EntityListeners(AuditingEntityListener.class)
 @JsonIgnoreProperties(value = {"createdAt", "updatedAt"}, allowGetters = true)
-public class Sprint implements Serializable{
+public class Convite implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    
-    private String titulo;
-    private String descricao;
-    @Temporal(javax.persistence.TemporalType.DATE)
-    private Date dataInicio;
-    @Temporal(javax.persistence.TemporalType.DATE)
-    private Date dataFim;
-    
     @ManyToOne
-    private Projeto projeto;
+    private Perfil funcao;
+    @ManyToOne
+    private Usuario remetenteId;
+    @ManyToOne
+    private Usuario destinatarioId;
+    @ManyToOne
+    private Projeto codProjeto;
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Date data;
 
     public Long getId() {
         return id;
@@ -49,44 +49,44 @@ public class Sprint implements Serializable{
         this.id = id;
     }
 
-    public String getTitulo() {
-        return titulo;
+    public Perfil getFuncao() {
+        return funcao;
     }
 
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
+    public void setFuncao(Perfil funcao) {
+        this.funcao = funcao;
     }
 
-    public String getDescricao() {
-        return descricao;
+    public Usuario getRemetenteId() {
+        return remetenteId;
     }
 
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
+    public void setRemetenteId(Usuario remetenteId) {
+        this.remetenteId = remetenteId;
     }
 
-    public Date getDataInicio() {
-        return dataInicio;
+    public Usuario getDestinatarioId() {
+        return destinatarioId;
     }
 
-    public void setDataInicio(Date dataInicio) {
-        this.dataInicio = dataInicio;
+    public void setDestinatarioId(Usuario destinatarioId) {
+        this.destinatarioId = destinatarioId;
     }
 
-    public Date getDataFim() {
-        return dataFim;
+    public Projeto getCodProjeto() {
+        return codProjeto;
     }
 
-    public void setDataFim(Date dataFim) {
-        this.dataFim = dataFim;
+    public void setCodProjeto(Projeto codProjeto) {
+        this.codProjeto = codProjeto;
     }
 
-    public Projeto getProjeto() {
-        return projeto;
+    public Date getData() {
+        return data;
     }
 
-    public void setProjeto(Projeto projeto) {
-        this.projeto = projeto;
+    public void setData(Date data) {
+        this.data = data;
     }
     
     

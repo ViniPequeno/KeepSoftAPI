@@ -5,13 +5,13 @@
  */
 package com.br.nescaupower.KeepSoftAPI.Repository;
 
-import com.br.nescaupower.KeepSoftAPI.Models.Perfil;
+import com.br.nescaupower.KeepSoftAPI.Models.Reuniao;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
  *
- * @author vinic
+ * @author developer
  */
-public interface PerfillRepository extends JpaRepository<Perfil, Long>{
+public interface ReuniaoRepository extends JpaRepository<Reuniao, Long>{
     
 }
