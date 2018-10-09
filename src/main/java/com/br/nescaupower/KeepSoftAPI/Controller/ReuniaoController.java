@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author developer
  */
 @RestController
-@RequestMapping("/api/reuniaos")
+@RequestMapping("/api/reuniao")
 public class ReuniaoController {
     
     @Autowired
