@@ -48,6 +48,21 @@ public class UsuarioController  {
                 .orElseThrow(() -> new ResourceNotFoundException("Usuario", "id", usuarioId));
     }
     
+    @GetMapping("/getByLogin/{login}")
+    public Usuario getUsuarioByLogin(@PathVariable(value = "login") String login){
+        return (Usuario) usuarioRepository.findByLogin(login);
+    }
+    
+    @GetMapping("/getByEmail/{email}")
+    public Usuario getUsuarioByEmail(@PathVariable(value = "email") String email){
+        return (Usuario) usuarioRepository.findByEmail(email);
+    }
+    
+    @GetMapping("/getByLoginOrName/{search}")
+    public List<Usuario> getUsuarioByLoginOrName(@PathVariable(value = "search") String serach){
+        return usuarioRepository.findByLoginOrName(serach, serach);
+    }
+    
     @PostMapping
     public ResponseEntity<Usuario> inserirUsuario(@Valid @RequestBody Usuario usuario){
         try {

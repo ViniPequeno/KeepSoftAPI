@@ -43,6 +43,16 @@ public class PerfilController {
                 .orElseThrow(() -> new ResourceNotFoundException("Perfil", "id", perfilRepository));
     }
     
+    @GetMapping("/findByProjeto/{projeto}")
+    public List<Perfil> findByProjeto(@PathVariable(value = "projeto") Long projeto){
+        return perfilRepository.findByProjeto(projeto);
+    }
+    
+    @GetMapping("/findByUserIdAndProjectID/{projeto}/{usuario}")
+    public Perfil findByProjeto(@PathVariable(value = "projeto") Long projeto,
+            @PathVariable(value = "usuario") Long usuario){
+        return perfilRepository.findByUserIdAndProjectID(projeto, usuario);
+    }
     @PostMapping
     public ResponseEntity<Perfil> inserirPerfil(@Valid @RequestBody Perfil projeto){
         return ResponseEntity.ok(perfilRepository.save(projeto));

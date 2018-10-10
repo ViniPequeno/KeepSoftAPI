@@ -43,6 +43,25 @@ public class ConviteController {
                 .orElseThrow(() -> new ResourceNotFoundException("Convite", "id", conviteRepository));
     }
     
+    @GetMapping("/findByProjeto/{projeto}")
+    public List<Convite> findByProjeto(@PathVariable(value = "projeto") Long projeto){
+        return  conviteRepository.findByProjeto(projeto);
+    }
+    
+    
+    @GetMapping("/findByReceiverID/{receiver}")
+    public List<Convite> findByReceiverID(@PathVariable(value = "receiver") Long receiver){
+        return  conviteRepository.findByProjeto(receiver);
+    }
+    
+    
+    @GetMapping("/findByProjetoUsuarios/{projeto}/{remetente}/{destinario}")
+    public List<Convite> findByProjetoUsuarios(@PathVariable(value = "projeto") Long projeto,
+            @PathVariable(value = "remetente") Long remetente,
+            @PathVariable(value = "destinario") Long destinario){
+        return conviteRepository.findByProjetoUsuarios(projeto, remetente,destinario);
+    }
+    
     @PostMapping
     public ResponseEntity<Convite> inserirConvite(@Valid @RequestBody Convite projeto){
         return ResponseEntity.ok(conviteRepository.save(projeto));

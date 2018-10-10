@@ -47,6 +47,16 @@ public class ProjetoController {
                 .orElseThrow(() -> new ResourceNotFoundException("Projeto", "id", projetoId));
     }
     
+    @GetMapping("/findByName/{name}")
+    public Projeto findByName(@PathVariable(value = "name") String name){
+        return projetoRepository.findByName(name);
+    }
+    
+    @GetMapping("/findByUserID/{id}")
+    public List<Projeto> findByUserID(@PathVariable(value = "id") Long id){
+        return projetoRepository.findByUserID(id);
+    }
+    
     @PostMapping
     public ResponseEntity<Projeto> inserirProjeto(@Valid @RequestBody Projeto projeto){
         return ResponseEntity.ok(projetoRepository.save(projeto));

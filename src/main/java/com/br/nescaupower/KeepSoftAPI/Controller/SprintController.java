@@ -6,6 +6,7 @@
 package com.br.nescaupower.KeepSoftAPI.Controller;
 
 import com.br.nescaupower.KeepSoftAPI.Exception.ResourceNotFoundException;
+import com.br.nescaupower.KeepSoftAPI.Models.Perfil;
 import com.br.nescaupower.KeepSoftAPI.Models.Sprint;
 import com.br.nescaupower.KeepSoftAPI.Repository.SprintRepository;
 import java.util.List;
@@ -40,6 +41,22 @@ public class SprintController {
     public Sprint getSprint(@PathVariable(value = "id") Long sprintId){
         return (Sprint) sprintRepository.findById(sprintId)
                 .orElseThrow(() -> new ResourceNotFoundException("Sprint", "id", sprintId));
+    }
+    
+    @GetMapping("/findByTitulo/{titulo}")
+    public Sprint getSprint(@PathVariable(value = "titulo") String titulo){
+        return sprintRepository.findByTitulo(titulo);
+    }
+    
+    @GetMapping("/findPerfilOfSprintUsuario/{usuario}/{projeto}")
+    public Perfil findPerfilOfSprintUsuario(@PathVariable(value = "usuario") Long usuario,
+            @PathVariable(value = "projeto") Long projeto){
+        return sprintRepository.findPerfilOfSprintUsuario(usuario, projeto);
+    }
+    
+    @GetMapping("/findByProjectID/{projetoId}")
+    public List<Sprint> findByProjectID(@PathVariable(value = "projetoId") Long projetoId){
+        return sprintRepository.findByProjectID(projetoId);
     }
     
     @PostMapping
