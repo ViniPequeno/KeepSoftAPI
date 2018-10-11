@@ -16,12 +16,13 @@ import org.springframework.data.jpa.repository.Query;
  * @author developer
  */
 public interface SprintRepository extends JpaRepository<Sprint, Long>{
-    @Query(value ="SELECT * FROM sprint s WHERE s.titulo = ?")
+    @Query(value ="SELECT * FROM sprint s WHERE s.titulo = ?", nativeQuery = true)
     public Sprint findByTitulo(String titulo);
     
-    @Query(value ="SELECT * FROM sprint s WHERE s.projeto= ?")
+    @Query(value ="SELECT * FROM sprint s WHERE s.projeto= ?", nativeQuery = true)
     public List<Sprint> findByProjectID(Long projeto);
     
-    @Query(value ="SELECT * from Perfil p INNER JOIN Projeto pro ON p.codProjeto = pro.codigo INNER JOIN USUARIO u ON p.idUsuario = u.id where u.id = ? and pro.codigo = ?")
+    @Query(value ="SELECT * from Perfil p INNER JOIN Projeto pro ON p.codProjeto = pro.codigo INNER JOIN USUARIO u ON p.idUsuario = u.id where u.id = ? and pro.codigo = ?",
+            nativeQuery = true)
     public Perfil findPerfilOfSprintUsuario(Long usuario, Long codProjeto);
 }
