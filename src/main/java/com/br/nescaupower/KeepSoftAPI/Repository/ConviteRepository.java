@@ -21,7 +21,7 @@ public interface ConviteRepository extends JpaRepository<Convite, Long>{
     public List<Convite> findByProjetoUsuarios(Long projeto, Long remetente, Long destinario);
     
     @Query(value = "SELECT * FROM convite c WHERE c.codProjeto= ?1 AND c.destinatarioId= ?2 ", nativeQuery = true)
-    public List<Convite> findByProjetoUsuariosDestinario(Long projeto,  Long destinario);
+    public Convite findByProjetoUsuariosDestinario(Long projeto,  Long destinario);
     
     @Query(value = "SELECT * FROM convite c WHERE c.codProjeto= ?1", nativeQuery = true)
     public List<Convite> findByProjeto(Long projeto);

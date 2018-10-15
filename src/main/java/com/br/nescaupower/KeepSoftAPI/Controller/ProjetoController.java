@@ -57,6 +57,11 @@ public class ProjetoController {
         return projetoRepository.findByUserID(id);
     }
     
+    @GetMapping("/findByParticipantingUserID/{id}")
+    public List<Projeto> findByParticipantingUserID(@PathVariable(value = "id") Long id){
+        return projetoRepository.findByParticipantingUserID(id);
+    }
+    
     @PostMapping
     public ResponseEntity<Projeto> inserirProjeto(@Valid @RequestBody Projeto projeto){
         return ResponseEntity.ok(projetoRepository.save(projeto));

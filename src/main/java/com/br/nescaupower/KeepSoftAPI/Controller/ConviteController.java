@@ -55,7 +55,7 @@ public class ConviteController {
     }
     
     @GetMapping("/findByProjetoUsuariosDestinario/{projeto}/{destinario}")
-    public List<Convite> findByProjetoUsuariosDestinario(@PathVariable(value = "projeto") Long projeto,
+    public Convite findByProjetoUsuariosDestinario(@PathVariable(value = "projeto") Long projeto,
             @PathVariable(value = "destinario") Long destinario){
         return conviteRepository.findByProjetoUsuariosDestinario(projeto,destinario);
     }

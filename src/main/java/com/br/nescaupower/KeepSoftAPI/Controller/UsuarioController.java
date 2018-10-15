@@ -58,17 +58,21 @@ public class UsuarioController  {
         return (Usuario) usuarioRepository.findByEmail(email);
     }
     
-    @GetMapping("/getByLoginOrName/{search}")
-    public List<Usuario> getUsuarioByLoginOrName(@PathVariable(value = "search") String serach){
-        return usuarioRepository.findByLoginOrName(serach, serach);
+    @GetMapping("/getByLoginOrName/{search}/{id}")
+    public List<Usuario> getUsuarioByLoginOrName(@PathVariable(value = "search") String serach,
+            @PathVariable(value = "id") Long id){
+        return usuarioRepository.findByLoginOrName("%"+serach+"%", id);
     }
+    
     
     @PostMapping
     public ResponseEntity<Usuario> inserirUsuario(@Valid @RequestBody Usuario usuario){
         try {
+            System.out.println(usuario.getLogin());
             usuario.setSenha(GeneratedHashPassword.generateHash(usuario.getSenha()));   
             return ResponseEntity.ok(usuarioRepository.save(usuario));
         } catch (NoSuchAlgorithmException ex) {
+            ex.printStackTrace();
             return ResponseEntity.badRequest().body(null);
         }
     }
