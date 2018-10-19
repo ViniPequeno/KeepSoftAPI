@@ -2,9 +2,11 @@ package com.br.nescaupower.KeepSoftAPI.Models;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
@@ -28,8 +30,13 @@ public class Perfil implements Serializable {
 
     private com.br.nescaupower.KeepSoftAPI.Enum.Perfil perfil;
 
+    private String dataInicioFormat;
+    private String dataFimFormat;
+    
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date dataInicio;
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date dataFim;
 
@@ -100,4 +107,21 @@ public class Perfil implements Serializable {
         this.usuario = usuario;
     }
 
+    public String getDataInicioFormat() {
+        return dataInicioFormat;
+    }
+
+    public void setDataInicioFormat(String dataInicioFormat) {
+        this.dataInicioFormat = dataInicioFormat;
+    }
+
+    public String getDataFimFormat() {
+        return dataFimFormat;
+    }
+
+    public void setDataFimFormat(String dataFimFormat) {
+        this.dataFimFormat = dataFimFormat;
+    }
+
+    
 }

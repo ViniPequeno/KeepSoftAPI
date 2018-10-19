@@ -9,7 +9,11 @@ import com.br.nescaupower.KeepSoftAPI.Exception.ResourceNotFoundException;
 import com.br.nescaupower.KeepSoftAPI.Models.Perfil;
 import com.br.nescaupower.KeepSoftAPI.Models.Sprint;
 import com.br.nescaupower.KeepSoftAPI.Repository.SprintRepository;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +31,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author developer
  */
 @RestController
-@RequestMapping("/api/sprints")
+@RequestMapping("/api/sprint")
 public class SprintController {
     @Autowired
     SprintRepository sprintRepository;
@@ -48,11 +52,7 @@ public class SprintController {
         return sprintRepository.findByTitulo(titulo);
     }
     
-    @GetMapping("/findPerfilOfSprintUsuario/{usuario}/{projeto}")
-    public Perfil findPerfilOfSprintUsuario(@PathVariable(value = "usuario") Long usuario,
-            @PathVariable(value = "projeto") Long projeto){
-        return sprintRepository.findPerfilOfSprintUsuario(usuario, projeto);
-    }
+    
     
     @GetMapping("/findByProjectID/{projetoId}")
     public List<Sprint> findByProjectID(@PathVariable(value = "projetoId") Long projetoId){
@@ -61,6 +61,13 @@ public class SprintController {
     
     @PostMapping
     public ResponseEntity<Sprint> inserirSprint(@Valid @RequestBody Sprint sprint){
+        SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+        try{
+            sprint.setDataInicio(formato.parse(sprint.getDataInicioFormat()));
+            sprint.setDataFim(formato.parse(sprint.getDataFimFormat()));
+        } catch (ParseException ex) {
+            Logger.getLogger(SprintController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         return ResponseEntity.ok(sprintRepository.save(sprint));
     }
 
@@ -71,13 +78,22 @@ public class SprintController {
         Sprint sprint = sprintRepository.findById(sprintId).
                 orElseThrow(() -> new ResourceNotFoundException("Sprint", "sprint", sprintId));
         
+        sprint.setDataInicioFormat(sprintUpdate.getDataInicioFormat());
+        sprint.setDataFimFormat(sprintUpdate.getDataFimFormat());
+        
         sprint.setDataInicio(sprintUpdate.getDataInicio());
         sprint.setDataFim(sprintUpdate.getDataFim());
         sprint.setDescricao(sprintUpdate.getDescricao());
         sprint.setTitulo(sprintUpdate.getTitulo());
         sprint.setProjeto(sprintUpdate.getProjeto());
         
-        
+        SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+        try{
+            sprint.setDataInicio(formato.parse(sprintUpdate.getDataInicioFormat()));
+            sprint.setDataFim(formato.parse(sprintUpdate.getDataFimFormat()));
+        } catch (ParseException ex) {
+            Logger.getLogger(SprintController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
         return ResponseEntity.ok(sprintRepository.save(sprint));
     }

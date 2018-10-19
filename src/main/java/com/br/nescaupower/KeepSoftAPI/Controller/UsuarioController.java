@@ -39,6 +39,7 @@ public class UsuarioController  {
     
     @GetMapping
     public List<Usuario> getAllUsuarios(){
+        System.out.println("pedro12");
         return usuarioRepository.findAll();
     }
     
@@ -57,18 +58,17 @@ public class UsuarioController  {
     public Usuario getUsuarioByEmail(@PathVariable(value = "email") String email){
         return (Usuario) usuarioRepository.findByEmail(email);
     }
-    
+        
     @GetMapping("/getByLoginOrName/{search}/{id}")
     public List<Usuario> getUsuarioByLoginOrName(@PathVariable(value = "search") String serach,
             @PathVariable(value = "id") Long id){
-        return usuarioRepository.findByLoginOrName("%"+serach+"%", id);
+        return usuarioRepository.findByLoginOrName("%"+serach+"%", "%"+serach+"%", id);
     }
     
     
     @PostMapping
     public ResponseEntity<Usuario> inserirUsuario(@Valid @RequestBody Usuario usuario){
         try {
-            System.out.println(usuario.getLogin());
             usuario.setSenha(GeneratedHashPassword.generateHash(usuario.getSenha()));   
             return ResponseEntity.ok(usuarioRepository.save(usuario));
         } catch (NoSuchAlgorithmException ex) {
@@ -77,21 +77,8 @@ public class UsuarioController  {
         }
     }
     
-    @PostMapping("/login")
-    public ResponseEntity<Usuario> signIn(@Valid @RequestBody Login login){
-        try {
-            Usuario usuario = usuarioRepository.findByLogin(login.getLogin());
-            login.setSenha(GeneratedHashPassword.generateHash(login.getSenha()));
-            
-            if(usuario.getSenha().equals(login.getSenha())){
-                return ResponseEntity.ok(usuario);
-            }else{
-                return ResponseEntity.ok(null);
-            }
-        } catch (NoSuchAlgorithmException ex) {
-            return ResponseEntity.badRequest().body(null);
-        }
-    }
+    
+
     
     @PutMapping("/{id}")
     public ResponseEntity<Usuario> atualizarUsuario(@PathVariable(value = "id") Long usuarioId, 

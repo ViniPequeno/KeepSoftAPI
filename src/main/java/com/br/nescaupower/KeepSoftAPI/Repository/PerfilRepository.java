@@ -16,10 +16,10 @@ import org.springframework.data.jpa.repository.Query;
  */
 public interface PerfilRepository extends JpaRepository<Perfil, Long> {
 
-    @Query(value = "SELECT * FROM perfil p WHERE p.projeto= ?1", nativeQuery = true)
+    @Query(value = "SELECT * FROM perfil p WHERE p.projeto_codigo= ?1", nativeQuery = true)
     public List<Perfil> findByProjeto(Long projeto);
 
-    @Query(value = "SELECT * FROM perfil p WHERE p.codProjeto= ? and p.idUsuario= ?",
+    @Query(value = "SELECT * FROM perfil p WHERE p.projeto_codigo= ? and p.usuario_id= ?",
             nativeQuery = true)
     public Perfil findByUserIdAndProjectID(Long projeto, Long usuario);
 }

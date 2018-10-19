@@ -10,6 +10,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
@@ -40,14 +41,16 @@ public class Usuario implements Serializable{
     private String email;
     @Column(nullable = false)
     private String nome;
-    @Column(nullable = false)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @Column(nullable = false)
     private String senha;
     private String telefone;
     
-    @OneToMany(mappedBy = "usuarioAdm")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @OneToMany(mappedBy = "usuarioAdm", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Projeto> projetos;
-    @OneToMany(mappedBy = "usuario")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Perfil> perfils;
 
     public Usuario() {

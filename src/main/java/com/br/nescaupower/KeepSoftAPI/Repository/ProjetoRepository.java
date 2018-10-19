@@ -18,11 +18,11 @@ public interface ProjetoRepository extends JpaRepository<Projeto, Long>{
     @Query(value = "SELECT * FROM projeto p WHERE p.nome= ?1", nativeQuery = true)
     public Projeto findByName(String name);
     
-    @Query(value = "SELECT * FROM projeto p WHERE p.usuarioAdm = ?1", nativeQuery = true)
+    @Query(value = "SELECT * FROM projeto p WHERE p.usuario_adm_id = ?1", nativeQuery = true)
     public List<Projeto> findByUserID(Long id);
     
-    @Query(value = "SELECT * FROM projeto p INNER JOIN perfil pe on p.codigo = pe.codProjeto "
-            + " WHERE pe.idUsuario = ?1 AND pe.dataInicio IS NOT NULL", nativeQuery = true)
+    @Query(value = "SELECT * FROM projeto p INNER JOIN perfil pe on p.codigo = pe.projeto_codigo "
+            + " WHERE pe.usuario_id = ?1 AND pe.data_inicio_format != ''", nativeQuery = true)
     public List<Projeto> findByParticipantingUserID(Long userId);
 }
 

@@ -6,8 +6,10 @@
 package com.br.nescaupower.KeepSoftAPI.Models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 import java.util.Date;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
@@ -33,8 +35,12 @@ public class Sprint implements Serializable{
     
     private String titulo;
     private String descricao;
+    private String dataInicioFormat;
+    private String dataFimFormat;
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date dataInicio;
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date dataFim;
     
@@ -81,6 +87,23 @@ public class Sprint implements Serializable{
         this.dataFim = dataFim;
     }
 
+    public String getDataInicioFormat() {
+        return dataInicioFormat;
+    }
+
+    public void setDataInicioFormat(String dataInicioFormat) {
+        this.dataInicioFormat = dataInicioFormat;
+    }
+
+    public String getDataFimFormat() {
+        return dataFimFormat;
+    }
+
+    public void setDataFimFormat(String dataFimFormat) {
+        this.dataFimFormat = dataFimFormat;
+    }
+
+    
     public Projeto getProjeto() {
         return projeto;
     }

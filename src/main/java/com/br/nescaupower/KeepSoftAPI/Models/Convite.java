@@ -5,9 +5,12 @@
  */
 package com.br.nescaupower.KeepSoftAPI.Models;
 
+import com.br.nescaupower.KeepSoftAPI.Enum.Perfil;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 import java.util.Date;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
@@ -30,15 +33,18 @@ public class Convite implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @ManyToOne
-    private Perfil funcao;
-    @ManyToOne
+    private com.br.nescaupower.KeepSoftAPI.Enum.Perfil funcao;
+   @ManyToOne
     private Usuario remetenteId;
     @ManyToOne
     private Usuario destinatarioId;
     @ManyToOne
     private Projeto codProjeto;
-    @Temporal(javax.persistence.TemporalType.DATE)
+    
+    private String dataFormat;
+    
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date data;
 
     public Long getId() {
@@ -56,6 +62,8 @@ public class Convite implements Serializable{
     public void setFuncao(Perfil funcao) {
         this.funcao = funcao;
     }
+
+    
 
     public Usuario getRemetenteId() {
         return remetenteId;
@@ -87,6 +95,14 @@ public class Convite implements Serializable{
 
     public void setData(Date data) {
         this.data = data;
+    }
+
+    public String getDataFormat() {
+        return dataFormat;
+    }
+
+    public void setDataFormat(String dataFormat) {
+        this.dataFormat = dataFormat;
     }
     
     

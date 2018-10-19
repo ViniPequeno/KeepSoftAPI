@@ -5,11 +5,14 @@
  */
 package com.br.nescaupower.KeepSoftAPI.Models.Auxiliares;
 
+import java.io.Serializable;
+
 /**
  *
  * @author vinic
  */
-public class Login {
+
+public class Login implements Serializable{
     private String login;
     private String senha;
 

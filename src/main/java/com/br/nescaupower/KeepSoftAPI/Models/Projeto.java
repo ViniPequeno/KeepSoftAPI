@@ -6,9 +6,11 @@
 package com.br.nescaupower.KeepSoftAPI.Models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
@@ -19,6 +21,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
+import javax.persistence.Transient;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 /**
@@ -35,18 +38,27 @@ public class Projeto implements Serializable{
     private Long codigo;
     private String nome;
     private String descricao;
+    private String dataCriacaoFormat;
+    private String dataFinalizacaoFormat;
+    private String dataPrevFinalizacaoFormat;
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date dataCriacao;
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date dataFinalizacao;
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date dataPrevFinalizacao;
     
+    
     @ManyToOne
     private Usuario usuarioAdm;
-    @OneToMany(mappedBy = "projeto")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @OneToMany(mappedBy = "projeto", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Perfil> perfils;
-    @OneToMany(mappedBy = "projeto")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @OneToMany(mappedBy = "projeto", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Sprint> sprints;
 
     public Projeto() {
@@ -135,6 +147,32 @@ public class Projeto implements Serializable{
     public void setSprints(List<Sprint> sprints) {
         this.sprints = sprints;
     }
+
+    public String getDataCriacaoFormat() {
+        return dataCriacaoFormat;
+    }
+
+    public void setDataCriacaoFormat(String dataCriacaoFormat) {
+        this.dataCriacaoFormat = dataCriacaoFormat;
+    }
+
+    public String getDataFinalizacaoFormat() {
+        return dataFinalizacaoFormat;
+    }
+
+    public void setDataFinalizacaoFormat(String dataFinalizacaoFormat) {
+        this.dataFinalizacaoFormat = dataFinalizacaoFormat;
+    }
+
+    public String getDataPrevFinalizacaoFormat() {
+        return dataPrevFinalizacaoFormat;
+    }
+
+    public void setDataPrevFinalizacaoFormat(String dataPrevFinalizacaoFormat) {
+        this.dataPrevFinalizacaoFormat = dataPrevFinalizacaoFormat;
+    }
+    
+    
     
     
     

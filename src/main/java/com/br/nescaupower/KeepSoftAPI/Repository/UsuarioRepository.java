@@ -21,9 +21,9 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long>{
     @Query(value = "select * from Usuario where email = ?", nativeQuery = true)
     public Usuario findByEmail(String email);
     
-    @Query(value = "SELECT * FROM usuario WHERE (login LIKE ?1) OR (nome LIKE ?1) AND id <> ?2",
+    @Query(value = "SELECT * FROM usuario WHERE (login LIKE ? OR nome LIKE ?) AND id <> ?",
             nativeQuery = true)
-    public List<Usuario> findByLoginOrName(String search, Long id);
+    public List<Usuario> findByLoginOrName(String search, String search2, Long id);
     
     
 }
