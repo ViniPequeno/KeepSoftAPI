@@ -60,6 +60,9 @@ public class Projeto implements Serializable{
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @OneToMany(mappedBy = "projeto", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Sprint> sprints;
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @OneToMany(mappedBy = "projeto",cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Status> status;
 
     public Projeto() {
     }

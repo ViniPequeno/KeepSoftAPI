@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author developer
  */
 @RestController
-@RequestMapping("/api/statuss")
+@RequestMapping("/api/status")
 public class StatusController {
     
     @Autowired
@@ -35,6 +35,11 @@ public class StatusController {
     @GetMapping
     public List<Status> getAllStatuss(){
         return statusRepository.findAll();
+    }
+    
+    @GetMapping("/findByProjeto/{id}")
+    public List<Status> getAllStatusFindByProjeto(@PathVariable(value = "id") Long projetoId){
+        return statusRepository.findByProjeto(projetoId);
     }
     
     @GetMapping("/{id}")
