@@ -31,6 +31,7 @@ public class Status implements Serializable{
     
     private String nome;
     private String descricao;
+    private int cor;
 
     @ManyToOne
     private Projeto projeto;
@@ -60,6 +61,14 @@ public class Status implements Serializable{
         this.descricao = descricao;
     }
 
+    public int getCor() {
+        return cor;
+    }
+
+    public void setCor(int cor) {
+        this.cor = cor;
+    }
+
     public Projeto getProjeto() {
         return projeto;
     }
@@ -67,7 +76,5 @@ public class Status implements Serializable{
     public void setProjeto(Projeto projeto) {
         this.projeto = projeto;
     }
-    
-    
     
 }

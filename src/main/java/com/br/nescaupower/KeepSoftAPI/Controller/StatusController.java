@@ -63,8 +63,7 @@ public class StatusController {
         
         status.setDescricao(statusUpdate.getDescricao());
         status.setNome(statusUpdate.getNome());
-        
-        
+        status.setCor(statusUpdate.getCor());
         
         return ResponseEntity.ok(statusRepository.save(status));
     }
