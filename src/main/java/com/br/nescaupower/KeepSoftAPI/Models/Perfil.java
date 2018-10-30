@@ -49,7 +49,6 @@ public class Perfil implements Serializable {
 
     public Perfil() {
         id = new Long(0);
-        dataInicio = Calendar.getInstance().getTime();
     }
 
     public Perfil(Long id, Date dataInicio, Date dataFim) {
