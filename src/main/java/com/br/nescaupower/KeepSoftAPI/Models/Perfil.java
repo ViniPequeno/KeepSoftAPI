@@ -40,8 +40,6 @@ public class Perfil implements Serializable {
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date dataFim;
 
-    
-    
     @ManyToOne
     private Projeto projeto;
     @ManyToOne
@@ -121,6 +119,4 @@ public class Perfil implements Serializable {
     public void setDataFimFormat(String dataFimFormat) {
         this.dataFimFormat = dataFimFormat;
     }
-
-    
 }

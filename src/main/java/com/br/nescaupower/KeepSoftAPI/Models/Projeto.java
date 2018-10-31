@@ -51,7 +51,6 @@ public class Projeto implements Serializable{
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date dataPrevFinalizacao;
     
-    
     @ManyToOne
     private Usuario usuarioAdm;
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
@@ -63,6 +62,9 @@ public class Projeto implements Serializable{
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @OneToMany(mappedBy = "projeto",cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Status> status;
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @OneToMany(mappedBy = "projeto",cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Convite> convites;
 
     public Projeto() {
     }
@@ -77,8 +79,6 @@ public class Projeto implements Serializable{
         this.usuarioAdm = usuarioAdm;
     }
 
-    
-    
     public Long getCodigo() {
         return codigo;
     }
@@ -174,9 +174,20 @@ public class Projeto implements Serializable{
     public void setDataPrevFinalizacaoFormat(String dataPrevFinalizacaoFormat) {
         this.dataPrevFinalizacaoFormat = dataPrevFinalizacaoFormat;
     }
-    
-    
-    
-    
-    
+
+    public List<Status> getStatus() {
+        return status;
+    }
+
+    public void setStatus(List<Status> status) {
+        this.status = status;
+    }
+
+    public List<Convite> getConvites() {
+        return convites;
+    }
+
+    public void setConvites(List<Convite> convites) {
+        this.convites = convites;
+    }
 }

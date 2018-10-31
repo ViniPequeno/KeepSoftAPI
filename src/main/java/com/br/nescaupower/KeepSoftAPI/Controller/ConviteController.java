@@ -88,7 +88,7 @@ public class ConviteController {
                 orElseThrow(() -> new ResourceNotFoundException("Convite", "convite", conviteId));
 
         convite.setData(conviteUpdate.getData());
-        convite.setCodProjeto(conviteUpdate.getCodProjeto());
+        convite.setProjeto(conviteUpdate.getProjeto());
         convite.setDestinatarioId(conviteUpdate.getDestinatarioId());
         convite.setRemetenteId(conviteUpdate.getRemetenteId());
         convite.setFuncao(conviteUpdate.getFuncao());

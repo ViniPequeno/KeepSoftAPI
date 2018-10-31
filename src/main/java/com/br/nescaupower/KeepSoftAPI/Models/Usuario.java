@@ -65,7 +65,6 @@ public class Usuario implements Serializable{
         this.telefone = telefone;
     }
 
-    
     public Long getId() {
         return id;
     }
@@ -129,8 +128,4 @@ public class Usuario implements Serializable{
     public void setPerfils(List<Perfil> perfils) {
         this.perfils = perfils;
     }
-    
-    
-    
-    
 }

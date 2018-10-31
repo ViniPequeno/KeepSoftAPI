@@ -34,12 +34,12 @@ public class Convite implements Serializable{
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private com.br.nescaupower.KeepSoftAPI.Enum.Perfil funcao;
-   @ManyToOne
+    @ManyToOne
     private Usuario remetenteId;
     @ManyToOne
     private Usuario destinatarioId;
     @ManyToOne
-    private Projeto codProjeto;
+    private Projeto projeto;
     
     private String dataFormat;
     
@@ -63,8 +63,6 @@ public class Convite implements Serializable{
         this.funcao = funcao;
     }
 
-    
-
     public Usuario getRemetenteId() {
         return remetenteId;
     }
@@ -81,12 +79,12 @@ public class Convite implements Serializable{
         this.destinatarioId = destinatarioId;
     }
 
-    public Projeto getCodProjeto() {
-        return codProjeto;
+    public Projeto getProjeto() {
+        return projeto;
     }
 
-    public void setCodProjeto(Projeto codProjeto) {
-        this.codProjeto = codProjeto;
+    public void setProjeto(Projeto projeto) {
+        this.projeto = projeto;
     }
 
     public Date getData() {
@@ -104,6 +102,4 @@ public class Convite implements Serializable{
     public void setDataFormat(String dataFormat) {
         this.dataFormat = dataFormat;
     }
-    
-    
 }

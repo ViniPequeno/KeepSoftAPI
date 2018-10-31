@@ -60,7 +60,7 @@ public class PerfilController {
 
     @PostMapping
     public ResponseEntity<Perfil> inserirPerfil(@Valid @RequestBody Perfil perfil) {
-        SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd");
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         try {
             if (!perfil.getDataInicioFormat().equals("")) {
                 perfil.setDataInicio(format.parse(perfil.getDataInicioFormat()));
