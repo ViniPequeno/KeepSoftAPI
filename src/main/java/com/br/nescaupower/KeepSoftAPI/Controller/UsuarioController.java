@@ -39,7 +39,6 @@ public class UsuarioController  {
     
     @GetMapping
     public List<Usuario> getAllUsuarios(){
-        System.out.println("pedro12");
         return usuarioRepository.findAll();
     }
     
@@ -89,6 +88,8 @@ public class UsuarioController  {
         usuario.setEmail(usuarioUpdate.getEmail());
         usuario.setNome(usuarioUpdate.getNome());
         usuario.setTelefone(usuarioUpdate.getTelefone());
+        usuario.setReceiverEmail(usuarioUpdate.isReceiverEmail());
+        usuario.setReceiverNotification(usuarioUpdate.isReceiverNotification());
         
         return ResponseEntity.ok(usuarioRepository.save(usuario));
     }

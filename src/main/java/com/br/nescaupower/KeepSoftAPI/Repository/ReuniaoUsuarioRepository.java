@@ -5,13 +5,13 @@
  */
 package com.br.nescaupower.KeepSoftAPI.Repository;
 
-import com.br.nescaupower.KeepSoftAPI.Models.RequisitoStatus;
+import com.br.nescaupower.KeepSoftAPI.Models.ReuniaoUsuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
  *
  * @author developer
  */
-public interface RequisitoStatusRepository extends JpaRepository<RequisitoStatus, Long>{
+public interface ReuniaoUsuarioRepository extends JpaRepository<ReuniaoUsuario, Long>{
     
 }

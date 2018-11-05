@@ -6,13 +6,18 @@
 package com.br.nescaupower.KeepSoftAPI.Models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -26,15 +31,31 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @EntityListeners(AuditingEntityListener.class)
 @JsonIgnoreProperties(value = {"createdAt", "updatedAt"}, allowGetters = true)
 public class Reuniao implements Serializable{
+
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    @OneToMany(mappedBy = "reuniao", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ReuniaoUsuario> reuniaoUsuarios;
+    
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
     private String nome;
-    private String relatorio;
+    private String resumo;
     private String assunto;
+    
+    private String dataInicioFormat;
+    private String dataFimFormat;
+    
     @Temporal(javax.persistence.TemporalType.DATE)
-    private Date data;
+    private Date dataInicio;
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Date dataFim;
+    
+    @ManyToOne
+    private Projeto projeto;
+    
+    private boolean realizada = false;
 
     public Long getId() {
         return id;
@@ -52,14 +73,16 @@ public class Reuniao implements Serializable{
         this.nome = nome;
     }
 
-    public String getRelatorio() {
-        return relatorio;
+    public String getResumo() {
+        return resumo;
     }
 
-    public void setRelatorio(String relatorio) {
-        this.relatorio = relatorio;
+    public void setResumo(String resumo) {
+        this.resumo = resumo;
     }
 
+    
+    
     public String getAssunto() {
         return assunto;
     }
@@ -68,13 +91,62 @@ public class Reuniao implements Serializable{
         this.assunto = assunto;
     }
 
-    public Date getData() {
-        return data;
+    public String getDataInicioFormat() {
+        return dataInicioFormat;
     }
 
-    public void setData(Date data) {
-        this.data = data;
+    public void setDataInicioFormat(String dataInicioFormat) {
+        this.dataInicioFormat = dataInicioFormat;
     }
+
+    public String getDataFimFormat() {
+        return dataFimFormat;
+    }
+
+    public void setDataFimFormat(String dataFimFormat) {
+        this.dataFimFormat = dataFimFormat;
+    }
+
+    public Date getDataInicio() {
+        return dataInicio;
+    }
+
+    public void setDataInicio(Date dataInicio) {
+        this.dataInicio = dataInicio;
+    }
+
+    public Date getDataFim() {
+        return dataFim;
+    }
+
+    public void setDataFim(Date dataFim) {
+        this.dataFim = dataFim;
+    }
+
+    public List<ReuniaoUsuario> getReuniaoUsuarios() {
+        return reuniaoUsuarios;
+    }
+
+    public void setReuniaoUsuarios(List<ReuniaoUsuario> reuniaoUsuarios) {
+        this.reuniaoUsuarios = reuniaoUsuarios;
+    }
+
+    public boolean isRealizada() {
+        return realizada;
+    }
+
+    public void setRealizada(boolean realizada) {
+        this.realizada = realizada;
+    }
+
+    public Projeto getProjeto() {
+        return projeto;
+    }
+
+    public void setProjeto(Projeto projeto) {
+        this.projeto = projeto;
+    }
+
     
     
 }

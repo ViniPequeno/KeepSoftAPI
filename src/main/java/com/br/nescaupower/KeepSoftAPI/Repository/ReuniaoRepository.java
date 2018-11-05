@@ -6,12 +6,16 @@
 package com.br.nescaupower.KeepSoftAPI.Repository;
 
 import com.br.nescaupower.KeepSoftAPI.Models.Reuniao;
+import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 /**
  *
  * @author developer
  */
 public interface ReuniaoRepository extends JpaRepository<Reuniao, Long>{
-    
-}
+    @Query(value="SELECT * FROM reuniao r WHERE r.projeto_codigo = ?", nativeQuery = true)
+    public List<Reuniao> findByProjeto(Long id);
+
+ }

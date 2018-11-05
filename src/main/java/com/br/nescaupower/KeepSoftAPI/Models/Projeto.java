@@ -53,18 +53,22 @@ public class Projeto implements Serializable{
     
     @ManyToOne
     private Usuario usuarioAdm;
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @OneToMany(mappedBy = "projeto", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Perfil> perfils;
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @OneToMany(mappedBy = "projeto", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Sprint> sprints;
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @OneToMany(mappedBy = "projeto",cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Status> status;
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @OneToMany(mappedBy = "projeto",cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Convite> convites;
+    
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    @OneToMany(mappedBy = "projeto",cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Reuniao> reuniaos;
 
     public Projeto() {
     }

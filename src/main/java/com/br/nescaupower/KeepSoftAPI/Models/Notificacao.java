@@ -37,6 +37,8 @@ public class Notificacao implements Serializable{
     private Usuario usuario;
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date dataCriacao;
+    
+    private String dataCriacaoFormat;
 
     public Long getId() {
         return id;
@@ -60,6 +62,14 @@ public class Notificacao implements Serializable{
 
     public void setDataCriacao(Date dataCriacao) {
         this.dataCriacao = dataCriacao;
+    }
+
+    public String getDataCriacaoFormat() {
+        return dataCriacaoFormat;
+    }
+
+    public void setDataCriacaoFormat(String dataCriacaoFormat) {
+        this.dataCriacaoFormat = dataCriacaoFormat;
     }
     
     

@@ -5,13 +5,16 @@
  */
 package com.br.nescaupower.KeepSoftAPI.Repository;
 
-import com.br.nescaupower.KeepSoftAPI.Models.Requisito;
+import com.br.nescaupower.KeepSoftAPI.Models.Tarefa;
+import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+
 
 /**
  *
  * @author developer
  */
-public interface RequisitoRepository extends JpaRepository<Requisito, Long>{
-    
+public interface TarefaRepository extends JpaRepository<Tarefa, Long>{
+        
 }

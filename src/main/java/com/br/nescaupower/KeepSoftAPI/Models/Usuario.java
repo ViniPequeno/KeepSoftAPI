@@ -52,7 +52,18 @@ public class Usuario implements Serializable{
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Perfil> perfils;
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Tarefa> tarefas;
+    
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    @OneToMany(mappedBy = "reuniao", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ReuniaoUsuario> reuniaoUsuarios;
 
+    
+    private boolean receiverNotification = false;
+    private boolean receiverEmail = false;
+    
     public Usuario() {
     }
 
@@ -128,4 +139,39 @@ public class Usuario implements Serializable{
     public void setPerfils(List<Perfil> perfils) {
         this.perfils = perfils;
     }
+
+    public List<Tarefa> getTarefas() {
+        return tarefas;
+    }
+
+    public void setTarefas(List<Tarefa> tarefas) {
+        this.tarefas = tarefas;
+    }
+
+    public List<ReuniaoUsuario> getReuniaoUsuarios() {
+        return reuniaoUsuarios;
+    }
+
+    public void setReuniaoUsuarios(List<ReuniaoUsuario> reuniaoUsuarios) {
+        this.reuniaoUsuarios = reuniaoUsuarios;
+    }
+
+    public boolean isReceiverNotification() {
+        return receiverNotification;
+    }
+
+    public void setReceiverNotification(boolean receiverNotification) {
+        this.receiverNotification = receiverNotification;
+    }
+
+    public boolean isReceiverEmail() {
+        return receiverEmail;
+    }
+
+    public void setReceiverEmail(boolean receiverEmail) {
+        this.receiverEmail = receiverEmail;
+    }
+    
+ 
+    
 }

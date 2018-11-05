@@ -8,7 +8,10 @@ package com.br.nescaupower.KeepSoftAPI.Controller;
 import com.br.nescaupower.KeepSoftAPI.Exception.ResourceNotFoundException;
 import com.br.nescaupower.KeepSoftAPI.Models.Reuniao;
 import com.br.nescaupower.KeepSoftAPI.Repository.ReuniaoRepository;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.TimeZone;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -37,6 +40,11 @@ public class ReuniaoController {
         return reuniaoRepository.findAll();
     }
     
+    @GetMapping("findByProjectID/{id}")
+    public List<Reuniao> findByProjectID(@PathVariable(value = "id") Long projetoId){
+        return reuniaoRepository.findByProjeto(projetoId);
+    }
+    
     @GetMapping("/{id}")
     public Reuniao getReuniao(@PathVariable(value = "id") Long reuniaoId){
         return (Reuniao) reuniaoRepository.findById(reuniaoId)
@@ -45,6 +53,17 @@ public class ReuniaoController {
     
     @PostMapping
     public ResponseEntity<Reuniao> inserirReuniao(@Valid @RequestBody Reuniao reuniao){
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+        format.setTimeZone(TimeZone.getTimeZone("GMT-4:00"));
+        try {
+            if (!reuniao.getDataInicioFormat().equals("")) {
+                reuniao.setDataInicio(format.parse(reuniao.getDataInicioFormat()));
+            }
+            if (!reuniao.getDataFimFormat().equals("")) {
+                reuniao.setDataFim(format.parse(reuniao.getDataFimFormat()));
+            }
+        } catch (ParseException ex) {
+        }
         return ResponseEntity.ok(reuniaoRepository.save(reuniao));
     }
 
@@ -56,9 +75,21 @@ public class ReuniaoController {
                 orElseThrow(() -> new ResourceNotFoundException("Reuniao", "reuniao", reuniaoId));
         
         reuniao.setAssunto(reuniaoUpdate.getAssunto());
-        reuniao.setData(reuniaoUpdate.getData());
         reuniao.setNome(reuniaoUpdate.getNome());
-        reuniao.setRelatorio(reuniaoUpdate.getRelatorio());
+        reuniao.setResumo(reuniaoUpdate.getResumo());
+        reuniao.setRealizada(reuniaoUpdate.isRealizada());
+        
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+        format.setTimeZone(TimeZone.getTimeZone("GMT-4:00"));
+        try {
+            if (!reuniao.getDataInicioFormat().equals("")) {
+                reuniao.setDataInicio(format.parse(reuniao.getDataInicioFormat()));
+            }
+            if (!reuniao.getDataFimFormat().equals("")) {
+                reuniao.setDataFim(format.parse(reuniao.getDataFimFormat()));
+            }
+        } catch (ParseException ex) {
+        }
         
         
         return ResponseEntity.ok(reuniaoRepository.save(reuniao));
