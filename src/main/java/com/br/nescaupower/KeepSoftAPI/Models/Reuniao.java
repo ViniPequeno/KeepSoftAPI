@@ -44,18 +44,15 @@ public class Reuniao implements Serializable {
     private String nome;
     private String resumo;
     private String assunto;
-
+    private String local;
+    
     private String dataInicioFormat;
-    private String dataFimFormat;
     private String horaInicioFormat;
     private String horaFimFormat;
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date dataInicio;
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    @Temporal(javax.persistence.TemporalType.DATE)
-    private Date dataFim;
 
     @ManyToOne(optional = false)
     private Projeto projeto;
@@ -102,14 +99,6 @@ public class Reuniao implements Serializable {
         this.dataInicioFormat = dataInicioFormat;
     }
 
-    public String getDataFimFormat() {
-        return dataFimFormat;
-    }
-
-    public void setDataFimFormat(String dataFimFormat) {
-        this.dataFimFormat = dataFimFormat;
-    }
-
     public Date getDataInicio() {
         return dataInicio;
     }
@@ -118,13 +107,7 @@ public class Reuniao implements Serializable {
         this.dataInicio = dataInicio;
     }
 
-    public Date getDataFim() {
-        return dataFim;
-    }
 
-    public void setDataFim(Date dataFim) {
-        this.dataFim = dataFim;
-    }
 
     public List<ReuniaoUsuario> getReuniaoUsuarios() {
         return reuniaoUsuarios;
@@ -166,4 +149,13 @@ public class Reuniao implements Serializable {
         this.horaFimFormat = horaFimFormat;
     }
 
+    public String getLocal() {
+        return local;
+    }
+
+    public void setLocal(String local) {
+        this.local = local;
+    }
+
+    
 }

@@ -11,7 +11,6 @@ import com.br.nescaupower.KeepSoftAPI.Repository.ReuniaoRepository;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
-import java.util.TimeZone;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -58,9 +57,6 @@ public class ReuniaoController {
             if (!reuniao.getDataInicioFormat().equals("")) {
                 reuniao.setDataInicio(format.parse(reuniao.getDataInicioFormat()));
             }
-            if (!reuniao.getDataFimFormat().equals("")) {
-                reuniao.setDataFim(format.parse(reuniao.getDataFimFormat()));
-            }
         } catch (ParseException ex) {
         }
         return ResponseEntity.ok(reuniaoRepository.save(reuniao));
@@ -79,14 +75,12 @@ public class ReuniaoController {
         reuniao.setRealizada(reuniaoUpdate.isRealizada());
         reuniao.setHoraInicioFormat(reuniaoUpdate.getHoraInicioFormat());
         reuniao.setHoraFimFormat(reuniaoUpdate.getHoraFimFormat());
+        reuniao.setLocal(reuniaoUpdate.getLocal());
         
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         try {
             if (!reuniao.getDataInicioFormat().equals("")) {
                 reuniao.setDataInicio(format.parse(reuniao.getDataInicioFormat()));
-            }
-            if (!reuniao.getDataFimFormat().equals("")) {
-                reuniao.setDataFim(format.parse(reuniao.getDataFimFormat()));
             }
         } catch (ParseException ex) {
         }
