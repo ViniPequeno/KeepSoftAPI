@@ -53,8 +53,7 @@ public class ReuniaoController {
     
     @PostMapping
     public ResponseEntity<Reuniao> inserirReuniao(@Valid @RequestBody Reuniao reuniao){
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
-        format.setTimeZone(TimeZone.getTimeZone("GMT-4:00"));
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         try {
             if (!reuniao.getDataInicioFormat().equals("")) {
                 reuniao.setDataInicio(format.parse(reuniao.getDataInicioFormat()));
@@ -78,9 +77,10 @@ public class ReuniaoController {
         reuniao.setNome(reuniaoUpdate.getNome());
         reuniao.setResumo(reuniaoUpdate.getResumo());
         reuniao.setRealizada(reuniaoUpdate.isRealizada());
+        reuniao.setHoraInicioFormat(reuniaoUpdate.getHoraInicioFormat());
+        reuniao.setHoraFimFormat(reuniaoUpdate.getHoraFimFormat());
         
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
-        format.setTimeZone(TimeZone.getTimeZone("GMT-4:00"));
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         try {
             if (!reuniao.getDataInicioFormat().equals("")) {
                 reuniao.setDataInicio(format.parse(reuniao.getDataInicioFormat()));

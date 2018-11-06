@@ -11,6 +11,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
@@ -27,34 +28,38 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
  * @author vinic
  */
 @Entity
-@Table(name ="reuniao")
+@Table(name = "reuniao")
 @EntityListeners(AuditingEntityListener.class)
 @JsonIgnoreProperties(value = {"createdAt", "updatedAt"}, allowGetters = true)
-public class Reuniao implements Serializable{
+public class Reuniao implements Serializable {
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @OneToMany(mappedBy = "reuniao", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ReuniaoUsuario> reuniaoUsuarios;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    
+
     private String nome;
     private String resumo;
     private String assunto;
-    
+
     private String dataInicioFormat;
     private String dataFimFormat;
-    
+    private String horaInicioFormat;
+    private String horaFimFormat;
+
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date dataInicio;
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date dataFim;
-    
-    @ManyToOne
+
+    @ManyToOne(optional = false)
     private Projeto projeto;
-    
+
     private boolean realizada = false;
 
     public Long getId() {
@@ -81,8 +86,6 @@ public class Reuniao implements Serializable{
         this.resumo = resumo;
     }
 
-    
-    
     public String getAssunto() {
         return assunto;
     }
@@ -147,6 +150,20 @@ public class Reuniao implements Serializable{
         this.projeto = projeto;
     }
 
-    
-    
+    public String getHoraInicioFormat() {
+        return horaInicioFormat;
+    }
+
+    public void setHoraInicioFormat(String horaInicioFormat) {
+        this.horaInicioFormat = horaInicioFormat;
+    }
+
+    public String getHoraFimFormat() {
+        return horaFimFormat;
+    }
+
+    public void setHoraFimFormat(String horaFimFormat) {
+        this.horaFimFormat = horaFimFormat;
+    }
+
 }

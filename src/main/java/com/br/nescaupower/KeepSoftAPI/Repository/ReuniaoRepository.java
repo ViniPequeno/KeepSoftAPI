@@ -15,7 +15,7 @@ import org.springframework.data.jpa.repository.Query;
  * @author developer
  */
 public interface ReuniaoRepository extends JpaRepository<Reuniao, Long>{
-    @Query(value="SELECT * FROM reuniao r WHERE r.projeto_codigo = ?", nativeQuery = true)
+    @Query(value="SELECT * FROM reuniao r WHERE r.projeto_codigo = ? AND r.realizada = 0", nativeQuery = true)
     public List<Reuniao> findByProjeto(Long id);
 
  }

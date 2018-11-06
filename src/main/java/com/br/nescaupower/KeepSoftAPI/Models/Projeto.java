@@ -41,32 +41,32 @@ public class Projeto implements Serializable{
     private String dataCriacaoFormat;
     private String dataFinalizacaoFormat;
     private String dataPrevFinalizacaoFormat;
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date dataCriacao;
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date dataFinalizacao;
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date dataPrevFinalizacao;
     
     @ManyToOne
     private Usuario usuarioAdm;
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @OneToMany(mappedBy = "projeto", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Perfil> perfils;
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @OneToMany(mappedBy = "projeto", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Sprint> sprints;
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @OneToMany(mappedBy = "projeto",cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Status> status;
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @OneToMany(mappedBy = "projeto",cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Convite> convites;
     
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @OneToMany(mappedBy = "projeto",cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Reuniao> reuniaos;
 
