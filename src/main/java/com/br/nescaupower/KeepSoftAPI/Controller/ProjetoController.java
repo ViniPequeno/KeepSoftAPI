@@ -55,7 +55,6 @@ public class ProjetoController {
 
     @GetMapping("/findByName/{name}")
     public Projeto findByName(@PathVariable(value = "name") String name) {
-        System.out.println(name);
         return projetoRepository.findByName(name);
     }
 
@@ -110,7 +109,6 @@ public class ProjetoController {
         Projeto projeto = projetoRepository.findById(projetoId)
                 .orElseThrow(() -> new ResourceNotFoundException("Projeto", "id", projetoId));
 
-        System.out.println(projetoId);
         projetoRepository.delete(projeto);
 
         return ResponseEntity.ok().build();

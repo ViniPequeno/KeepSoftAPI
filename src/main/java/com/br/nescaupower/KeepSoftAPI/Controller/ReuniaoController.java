@@ -7,7 +7,10 @@ package com.br.nescaupower.KeepSoftAPI.Controller;
 
 import com.br.nescaupower.KeepSoftAPI.Exception.ResourceNotFoundException;
 import com.br.nescaupower.KeepSoftAPI.Models.Reuniao;
+import com.br.nescaupower.KeepSoftAPI.Models.ReuniaoUsuario;
+import com.br.nescaupower.KeepSoftAPI.Models.Usuario;
 import com.br.nescaupower.KeepSoftAPI.Repository.ReuniaoRepository;
+import com.br.nescaupower.KeepSoftAPI.Repository.ReuniaoUsuarioRepository;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -34,6 +37,9 @@ public class ReuniaoController {
     @Autowired
     ReuniaoRepository reuniaoRepository;
     
+    @Autowired
+    ReuniaoUsuarioRepository reuniaoUsuarioRepository;
+    
     @GetMapping
     public List<Reuniao> getAllReuniaos(){
         return reuniaoRepository.findAll();
@@ -44,11 +50,22 @@ public class ReuniaoController {
         return reuniaoRepository.findByProjeto(projetoId);
     }
     
+    @GetMapping("findUsuariosReunion/{id}/{reuniaoId}")
+    public List<Usuario> findUsuariosReunion(@PathVariable(value = "id") Long id, @PathVariable(value = "reuniaoId") Long Reuniaoid){
+        return reuniaoRepository.findUsuariosReunion(id, Reuniaoid);
+    }
+
+    @GetMapping("usuario/{id}")
+    public List<Usuario> findUsuario(@PathVariable(value = "id") Long id){
+        return reuniaoRepository.findUsuario(id);
+    }
+    
     @GetMapping("/{id}")
     public Reuniao getReuniao(@PathVariable(value = "id") Long reuniaoId){
         return (Reuniao) reuniaoRepository.findById(reuniaoId)
                 .orElseThrow(() -> new ResourceNotFoundException("Reuniao", "id", reuniaoId));
     }
+    
     
     @PostMapping
     public ResponseEntity<Reuniao> inserirReuniao(@Valid @RequestBody Reuniao reuniao){
@@ -60,6 +77,11 @@ public class ReuniaoController {
         } catch (ParseException ex) {
         }
         return ResponseEntity.ok(reuniaoRepository.save(reuniao));
+    }
+    
+    @PostMapping("/usuario")
+    public ResponseEntity<ReuniaoUsuario> inserirReuniaoUsuario(@Valid @RequestBody ReuniaoUsuario reuniao){
+        return ResponseEntity.ok(reuniaoUsuarioRepository.save(reuniao));
     }
 
     
