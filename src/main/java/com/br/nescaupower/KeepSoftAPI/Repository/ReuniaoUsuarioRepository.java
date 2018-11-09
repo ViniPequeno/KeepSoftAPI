@@ -5,8 +5,11 @@
  */
 package com.br.nescaupower.KeepSoftAPI.Repository;
 
+import com.br.nescaupower.KeepSoftAPI.Models.Reuniao;
 import com.br.nescaupower.KeepSoftAPI.Models.ReuniaoUsuario;
+import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 /**
  *
@@ -14,4 +17,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 public interface ReuniaoUsuarioRepository extends JpaRepository<ReuniaoUsuario, Long>{
     
+    @Query(value = "SELECT * FROM reuniao_usuario WHERE reuniao_id = ?", nativeQuery = true)
+    public List<ReuniaoUsuario> findUsuario(Long id);
 }

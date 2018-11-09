@@ -11,8 +11,10 @@ import com.br.nescaupower.KeepSoftAPI.Models.ReuniaoUsuario;
 import com.br.nescaupower.KeepSoftAPI.Models.Usuario;
 import com.br.nescaupower.KeepSoftAPI.Repository.ReuniaoRepository;
 import com.br.nescaupower.KeepSoftAPI.Repository.ReuniaoUsuarioRepository;
+import com.br.nescaupower.KeepSoftAPI.Repository.UsuarioRepository;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +38,8 @@ public class ReuniaoController {
     
     @Autowired
     ReuniaoRepository reuniaoRepository;
+    @Autowired
+    UsuarioRepository usuarioRepository;
     
     @Autowired
     ReuniaoUsuarioRepository reuniaoUsuarioRepository;
@@ -50,14 +54,29 @@ public class ReuniaoController {
         return reuniaoRepository.findByProjeto(projetoId);
     }
     
-    @GetMapping("findUsuariosReunion/{id}/{reuniaoId}")
-    public List<Usuario> findUsuariosReunion(@PathVariable(value = "id") Long id, @PathVariable(value = "reuniaoId") Long Reuniaoid){
-        return reuniaoRepository.findUsuariosReunion(id, Reuniaoid);
+    @GetMapping("getUsuariosNotReuniao/{id}/")
+    public List<Usuario> findUsuariosReunion(@PathVariable(value = "id") Long id){
+        return null;
+    }
+    
+        
+    @GetMapping("getUsuariosNotReuniao/{id}/{login}")
+    public List<Usuario> findUsuariosReunion(@PathVariable(value = "id") Long id, 
+            @PathVariable(value = "login") String login){
+        return usuarioRepository.getUsuariosNotReuniao("%"+login+"%", id);
     }
 
     @GetMapping("usuario/{id}")
     public List<Usuario> findUsuario(@PathVariable(value = "id") Long id){
-        return reuniaoRepository.findUsuario(id);
+//        Reuniao reuniao = reuniaoRepository.findById1(id);
+        List<ReuniaoUsuario> list = reuniaoUsuarioRepository.findUsuario(id);
+        List<Usuario> usuarios = new ArrayList<>();
+        for(ReuniaoUsuario reuniaoUsuario : list){
+           Usuario usuario = reuniaoUsuario.getUsuario();
+           usuarios.add(usuario);
+        }
+        
+        return usuarios;
     }
     
     @GetMapping("/{id}")

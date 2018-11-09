@@ -7,6 +7,7 @@ package com.br.nescaupower.KeepSoftAPI.Models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
@@ -33,6 +34,20 @@ public class ReuniaoUsuario implements Serializable{
     private Reuniao reuniao;
     @ManyToOne
     private Usuario usuario;
+
+    public ReuniaoUsuario() {
+    }
+
+    public ReuniaoUsuario(Long id) {
+        this.id = id;
+    }
+
+    
+    public ReuniaoUsuario(Long id, Reuniao reuniao, Usuario usuario) {
+        this.id = id;
+        this.reuniao = reuniao;
+        this.usuario = usuario;
+    }
 
     public Long getId() {
         return id;

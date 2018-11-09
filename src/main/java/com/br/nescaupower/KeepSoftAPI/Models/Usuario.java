@@ -172,6 +172,7 @@ public class Usuario implements Serializable{
         this.receiverEmail = receiverEmail;
     }
     
+    
  
     
 }
