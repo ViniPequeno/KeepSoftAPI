@@ -8,7 +8,9 @@ package com.br.nescaupower.KeepSoftAPI.Models;
 import com.br.nescaupower.KeepSoftAPI.Enum.Dificuldade;
 import com.br.nescaupower.KeepSoftAPI.Enum.Prioridade;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
@@ -17,6 +19,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 /**
@@ -41,30 +44,18 @@ public class Tarefa implements Serializable {
     private Prioridade prioridade;
     private Dificuldade dificuldade;
     
-
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Date dataLimite;
+    private String dataLimiteformat;
+    
     @ManyToOne
-    private Usuario usuario;
+    private Perfil perfil;
+
 
     public Tarefa() {
     }
 
-    public Tarefa(String titulo, String descricao, Usuario usuario) {
-        this.titulo = titulo;
-        this.descricao = descricao;
-        this.usuario = usuario;
-    }
-    
-    
-
-    public Tarefa(Long id, String titulo, String descricao, Usuario usuario) {
-        this.id = id;
-        this.titulo = titulo;
-        this.descricao = descricao;
-        this.usuario = usuario;
-    }
-
-    
-    
     public Long getId() {
         return id;
     }
@@ -89,13 +80,6 @@ public class Tarefa implements Serializable {
         this.descricao = descricao;
     }
 
-    public Usuario getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
-    }
 
     public Prioridade getPrioridade() {
         return prioridade;
@@ -112,6 +96,34 @@ public class Tarefa implements Serializable {
     public void setDificuldade(Dificuldade dificuldade) {
         this.dificuldade = dificuldade;
     }
+
+    public Perfil getPerfil() {
+        return perfil;
+    }
+
+    public void setPerfil(Perfil perfil) {
+        this.perfil = perfil;
+    }
+
+    public Date getDataLimite() {
+        return dataLimite;
+    }
+
+    public void setDataLimite(Date dataLimite) {
+        this.dataLimite = dataLimite;
+    }
+
+    public String getDataLimiteformat() {
+        return dataLimiteformat;
+    }
+
+    public void setDataLimiteformat(String dataLimiteformat) {
+        this.dataLimiteformat = dataLimiteformat;
+    }
+
+   
+    
+    
     
     
 }

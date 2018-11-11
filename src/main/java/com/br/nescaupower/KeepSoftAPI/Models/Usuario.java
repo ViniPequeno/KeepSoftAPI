@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
+import java.sql.Blob;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -45,6 +46,9 @@ public class Usuario implements Serializable{
     @Column(nullable = false)
     private String senha;
     private String telefone;
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @Column(columnDefinition = "LONGBLOB")
+    private byte[] imagem;
     
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @OneToMany(mappedBy = "usuarioAdm", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -52,9 +56,8 @@ public class Usuario implements Serializable{
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Perfil> perfils;
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Tarefa> tarefas;
+    
+    
     
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @OneToMany(mappedBy = "reuniao", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -140,13 +143,6 @@ public class Usuario implements Serializable{
         this.perfils = perfils;
     }
 
-    public List<Tarefa> getTarefas() {
-        return tarefas;
-    }
-
-    public void setTarefas(List<Tarefa> tarefas) {
-        this.tarefas = tarefas;
-    }
 
     public List<ReuniaoUsuario> getReuniaoUsuarios() {
         return reuniaoUsuarios;
@@ -171,8 +167,15 @@ public class Usuario implements Serializable{
     public void setReceiverEmail(boolean receiverEmail) {
         this.receiverEmail = receiverEmail;
     }
+
+    public byte[] getImagem() {
+        return imagem;
+    }
+
+    public void setImagem(byte[] imagem) {
+        this.imagem = imagem;
+    }
+
     
-    
- 
     
 }

@@ -8,6 +8,8 @@ package com.br.nescaupower.KeepSoftAPI.Controller;
 import com.br.nescaupower.KeepSoftAPI.Exception.ResourceNotFoundException;
 import com.br.nescaupower.KeepSoftAPI.Models.Tarefa;
 import com.br.nescaupower.KeepSoftAPI.Repository.TarefaRepository;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author developer
  */
 @RestController
-@RequestMapping("/api/tarefas")
+@RequestMapping("/api/tarefa")
 public class TarefaController {
     @Autowired
     TarefaRepository tarefaRepository;
@@ -44,6 +46,11 @@ public class TarefaController {
     
     @PostMapping
     public ResponseEntity<Tarefa> inserirTarefa(@Valid @RequestBody Tarefa tarefa){
+        SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            tarefa.setDataLimite(formato.parse(tarefa.getDataLimiteformat()));
+        } catch (ParseException ex) {
+        }
         return ResponseEntity.ok(tarefaRepository.save(tarefa));
     }
 
@@ -59,8 +66,13 @@ public class TarefaController {
         tarefa.setDescricao(tarefaUpdate.getDescricao());
         tarefa.setTitulo(tarefaUpdate.getTitulo());
         
+        tarefa.setPerfil(tarefaUpdate.getPerfil());
         
-        
+        SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            tarefa.setDataLimite(formato.parse(tarefaUpdate.getDataLimiteformat()));
+        } catch (ParseException ex) {
+        }
         return ResponseEntity.ok(tarefaRepository.save(tarefa));
     }
     

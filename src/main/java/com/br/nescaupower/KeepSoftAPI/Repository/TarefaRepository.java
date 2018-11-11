@@ -16,5 +16,8 @@ import org.springframework.data.jpa.repository.Query;
  * @author developer
  */
 public interface TarefaRepository extends JpaRepository<Tarefa, Long>{
-        
+    @Query(value = "SELECT * FROM tarefa t INNER JOIN perfil p "
+            + "ON t.perfil_id = p.id WHERE p.projeto_codigo = ?", nativeQuery = true)
+    public List<Tarefa> findByProjeto(Long id);
+    
 }

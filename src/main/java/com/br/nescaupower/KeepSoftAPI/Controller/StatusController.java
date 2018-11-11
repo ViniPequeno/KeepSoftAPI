@@ -50,6 +50,10 @@ public class StatusController {
     
     @PostMapping
     public ResponseEntity<Status> inserirStatus(@Valid @RequestBody Status status){
+        Status statusExist = statusRepository.isStatusExist(status.getNome(), status.getProjeto().getCodigo());
+        if(statusExist != null){
+            return null;
+        }
         return ResponseEntity.ok(statusRepository.save(status));
     }
 

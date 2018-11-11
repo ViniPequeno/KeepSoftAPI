@@ -7,11 +7,14 @@ package com.br.nescaupower.KeepSoftAPI.Repository;
 
 import com.br.nescaupower.KeepSoftAPI.Models.TarefaStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 /**
  *
  * @author developer
  */
-public interface TarefaStatusRepository extends JpaRepository<TarefaStatus, Long>{
-    
+public interface TarefaStatusRepository extends JpaRepository<TarefaStatus, Long> {
+
+    @Query(value = "SELECT * FROM tarefa_status WHERE tarefa_id = ? AND data_fim is null", nativeQuery = true)
+    public TarefaStatus findStatusOfTarefa(Long id);
 }

@@ -19,6 +19,9 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long>{
     @Query (value = "SELECT * FROM usuario u WHERE u.id = ?", nativeQuery = true)
     public Usuario findById1(Long id);
     
+    @Query (value = "SELECT u.imagem FROM usuario u WHERE u.id = ?", nativeQuery = true)
+    public byte[] findByIdImagem(Long id);
+    
     @Query(value = "select * from Usuario where login = ?", nativeQuery = true)
     public Usuario findByLogin(String login);
     
