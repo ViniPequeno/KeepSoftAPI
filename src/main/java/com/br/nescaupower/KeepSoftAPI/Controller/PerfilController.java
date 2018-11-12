@@ -53,7 +53,7 @@ public class PerfilController {
     }
 
     @GetMapping("/findByUserIdAndProjectID/{projeto}/{usuario}")
-    public Perfil findByProjeto(@PathVariable(value = "projeto") Long projeto,
+    public Perfil findByUserIdAndProjectID(@PathVariable(value = "projeto") Long projeto,
             @PathVariable(value = "usuario") Long usuario) {
         return perfilRepository.findByUserIdAndProjectID(projeto, usuario);
     }
