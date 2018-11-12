@@ -54,6 +54,11 @@ public class TarefaController {
         return ResponseEntity.ok(tarefaRepository.save(tarefa));
     }
 
+    @GetMapping("/findByProjeto/{projeto}")
+    public List<Tarefa> findByProjeto(@PathVariable(value = "projeto") Long projeto) {
+        return tarefaRepository.findByProjeto(projeto);
+    }
+
     
     @PutMapping("/{id}")
     public ResponseEntity<Tarefa> atualizarTarefa(@PathVariable(value = "id") Long tarefaId, 
