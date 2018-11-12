@@ -19,4 +19,7 @@ public interface ReuniaoUsuarioRepository extends JpaRepository<ReuniaoUsuario, 
     
     @Query(value = "SELECT * FROM reuniao_usuario WHERE reuniao_id = ?", nativeQuery = true)
     public List<ReuniaoUsuario> findUsuario(Long id);
+    
+    @Query(value = "SELECT * FROM reuniao_usuario WHERE reuniao_id =? AND usuario_id = ?", nativeQuery = true)
+    public ReuniaoUsuario findReuniaoUsuario(Long reuniao, Long id);
 }

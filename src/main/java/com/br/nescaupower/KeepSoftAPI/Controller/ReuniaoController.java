@@ -54,11 +54,6 @@ public class ReuniaoController {
         return reuniaoRepository.findByProjeto(projetoId);
     }
     
-    @GetMapping("getUsuariosNotReuniao/{id}/")
-    public List<Usuario> findUsuariosReunion(@PathVariable(value = "id") Long id){
-        return null;
-    }
-    
         
     @GetMapping("getUsuariosNotReuniao/{id}/{login}")
     public List<Usuario> findUsuariosReunion(@PathVariable(value = "id") Long id, 
@@ -66,6 +61,13 @@ public class ReuniaoController {
         return usuarioRepository.getUsuariosNotReuniao("%"+login+"%", id);
     }
 
+    @GetMapping("getReuniaoUsuario/{reuniao}/{id}")
+    public ReuniaoUsuario findReuniaoUsuario(@PathVariable(value = "reuniao") Long reuniao, 
+            @PathVariable(value = "id") Long id){
+        
+        return reuniaoUsuarioRepository.findReuniaoUsuario(reuniao, id);
+    }
+    
     @GetMapping("usuario/{id}")
     public List<Usuario> findUsuario(@PathVariable(value = "id") Long id){
 //        Reuniao reuniao = reuniaoRepository.findById1(id);
@@ -75,7 +77,7 @@ public class ReuniaoController {
            Usuario usuario = reuniaoUsuario.getUsuario();
            usuarios.add(usuario);
         }
-        
+        usuarios.remove(0);
         return usuarios;
     }
     
@@ -86,8 +88,9 @@ public class ReuniaoController {
     }
     
     
-    @PostMapping
-    public ResponseEntity<Reuniao> inserirReuniao(@Valid @RequestBody Reuniao reuniao){
+    @PostMapping("{id}")
+    public Reuniao inserirReuniao(@PathVariable(value = "id") Long usuario,
+            @Valid @RequestBody Reuniao reuniao){
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         try {
             if (!reuniao.getDataInicioFormat().equals("")) {
@@ -95,7 +98,12 @@ public class ReuniaoController {
             }
         } catch (ParseException ex) {
         }
-        return ResponseEntity.ok(reuniaoRepository.save(reuniao));
+        Reuniao r = reuniaoRepository.save(reuniao);
+        ReuniaoUsuario reuniaoUsuario = new ReuniaoUsuario();
+        reuniaoUsuario.setReuniao(r);
+        reuniaoUsuario.setUsuario(usuarioRepository.findById1(usuario));
+        reuniaoUsuarioRepository.save(reuniaoUsuario);
+        return r;
     }
     
     @PostMapping("/usuario")
@@ -136,6 +144,16 @@ public class ReuniaoController {
                 .orElseThrow(() -> new ResourceNotFoundException("Reuniao", "id", reuniaoId));
         
         reuniaoRepository.delete(reuniao);
+        
+        return  ResponseEntity.ok().build();
+    }
+    
+    @DeleteMapping("usuario/{id}")
+    public ResponseEntity<?> deleteReuniaoUsuario(@PathVariable(value = "id")  Long reuniaoId){
+        ReuniaoUsuario reuniao = reuniaoUsuarioRepository.findById(reuniaoId)
+                .orElseThrow(() -> new ResourceNotFoundException("Reuniao", "id", reuniaoId));
+        
+        reuniaoUsuarioRepository.delete(reuniao);
         
         return  ResponseEntity.ok().build();
     }
