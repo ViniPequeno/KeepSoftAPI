@@ -55,6 +55,11 @@ public class ConviteController {
     public List<Convite> findByReceiverID(@PathVariable(value = "receiver") Long receiver) {
         return conviteRepository.findByReceiverID(receiver);
     }
+    
+    @GetMapping("findByReceiverIDNotVistos/{id}")
+    public List<Convite> findByReceiverIDNotVistos(@PathVariable(value = "id") Long usuario){
+        return conviteRepository.findByReceiverIDNotVistos(usuario);
+    }
 
     @GetMapping("/findByProjetoUsuariosDestinario/{projeto}/{destinario}")
     public Convite findByProjetoUsuariosDestinario(@PathVariable(value = "projeto") Long projeto,
@@ -73,11 +78,12 @@ public class ConviteController {
     public ResponseEntity<Convite> inserirConvite(@Valid @RequestBody Convite projeto) {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss'Z'");
         format.setTimeZone(TimeZone.getTimeZone("GMT-4:00"));
+        System.out.println(projeto.getDataFormat());
         try {
             projeto.setData(format.parse(projeto.getDataFormat()));
         } catch (ParseException ex) {
         }
-        System.out.println(projeto.getDataFormat());
+        
         return ResponseEntity.ok(conviteRepository.save(projeto));
     }
 

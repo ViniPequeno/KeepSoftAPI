@@ -69,8 +69,9 @@ public class UsuarioController {
     @ResponseBody
     public ResponseEntity<byte[]> getUsuarioImagem(HttpServletRequest request, @PathVariable(value = "id") Long usuarioId) {
         try {
+            Usuario usuario = usuarioRepository.findById1(usuarioId);
             HttpHeaders headers = new HttpHeaders();
-            File file = new File("imagens/pedro.png");
+            File file = new File("imagens/"+usuario.getLogin()+".png");
             InputStream is = new BufferedInputStream(new FileInputStream(file));
             String mimeType = URLConnection.guessContentTypeFromStream(is);
             headers.setContentType(MediaType.valueOf(mimeType));

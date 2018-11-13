@@ -28,4 +28,7 @@ public interface ConviteRepository extends JpaRepository<Convite, Long>{
     
     @Query(value = "SELECT * FROM convite c WHERE c.destinatario_id_id= ?1", nativeQuery = true)
     public List<Convite> findByReceiverID(Long destinario);
+    
+    @Query(value = "SELECT * FROM convite c WHERE c.destinatario_id_id= ? AND c.visto = 0", nativeQuery = true)
+    public List<Convite> findByReceiverIDNotVistos(Long destinario);
 }

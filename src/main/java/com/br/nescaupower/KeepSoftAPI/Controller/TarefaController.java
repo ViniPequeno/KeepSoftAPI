@@ -30,28 +30,45 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/tarefa")
 public class TarefaController {
+
     @Autowired
     TarefaRepository tarefaRepository;
-    
+
     @GetMapping
-    public List<Tarefa> getAllTarefas(){
+    public List<Tarefa> getAllTarefas() {
         return tarefaRepository.findAll();
     }
-    
+
+    @GetMapping("findNamesByProjeto/{id}")
+    public List<String> findNamesByProjeto(@PathVariable(value = "id") Long tarefaId) {
+        return tarefaRepository.findNamesByProjeto(tarefaId);
+    }
+
     @GetMapping("/{id}")
-    public Tarefa getTarefa(@PathVariable(value = "id") Long tarefaId){
+    public Tarefa getTarefa(@PathVariable(value = "id") Long tarefaId) {
         return (Tarefa) tarefaRepository.findById(tarefaId)
                 .orElseThrow(() -> new ResourceNotFoundException("Tarefa", "id", tarefaId));
     }
-    
+
     @PostMapping
-    public ResponseEntity<Tarefa> inserirTarefa(@Valid @RequestBody Tarefa tarefa){
+    public ResponseEntity<Tarefa> inserirTarefa(@Valid @RequestBody Tarefa tarefa) {
         SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
-        try {
-            tarefa.setDataLimite(formato.parse(tarefa.getDataLimiteformat()));
-        } catch (ParseException ex) {
+        boolean encontrado = false;
+        List<String> strings = tarefaRepository.findNamesByProjeto(tarefa.getPerfil().getProjeto().getCodigo());
+        for (String nome : strings) {
+            if (nome.equals(tarefa.getTitulo())) {
+                encontrado = true;
+            }
         }
-        return ResponseEntity.ok(tarefaRepository.save(tarefa));
+        if (!encontrado) {
+            try {
+                tarefa.setDataLimite(formato.parse(tarefa.getDataLimiteformat()));
+            } catch (ParseException ex) {
+            }
+            return ResponseEntity.ok(tarefaRepository.save(tarefa));
+        } else {
+            return null;
+        }
     }
 
     @GetMapping("/findByProjeto/{projeto}")
@@ -59,20 +76,19 @@ public class TarefaController {
         return tarefaRepository.findByProjeto(projeto);
     }
 
-    
     @PutMapping("/{id}")
-    public ResponseEntity<Tarefa> atualizarTarefa(@PathVariable(value = "id") Long tarefaId, 
-            @Valid @RequestBody Tarefa tarefaUpdate){
+    public ResponseEntity<Tarefa> atualizarTarefa(@PathVariable(value = "id") Long tarefaId,
+            @Valid @RequestBody Tarefa tarefaUpdate) {
         Tarefa tarefa = tarefaRepository.findById(tarefaId).
                 orElseThrow(() -> new ResourceNotFoundException("Tarefa", "tarefa", tarefaId));
-        
+
         tarefa.setDificuldade(tarefaUpdate.getDificuldade());
         tarefa.setPrioridade(tarefaUpdate.getPrioridade());
         tarefa.setDescricao(tarefaUpdate.getDescricao());
         tarefa.setTitulo(tarefaUpdate.getTitulo());
-        
+
         tarefa.setPerfil(tarefaUpdate.getPerfil());
-        
+
         SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
         try {
             tarefa.setDataLimite(formato.parse(tarefaUpdate.getDataLimiteformat()));
@@ -80,15 +96,15 @@ public class TarefaController {
         }
         return ResponseEntity.ok(tarefaRepository.save(tarefa));
     }
-    
+
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteTarefa(@PathVariable(value = "id")  Long tarefaId){
+    public ResponseEntity<?> deleteTarefa(@PathVariable(value = "id") Long tarefaId) {
         Tarefa tarefa = tarefaRepository.findById(tarefaId)
                 .orElseThrow(() -> new ResourceNotFoundException("Tarefa", "id", tarefaId));
-        
+
         tarefaRepository.delete(tarefa);
-        
-        return  ResponseEntity.ok().build();
+
+        return ResponseEntity.ok().build();
     }
-    
+
 }
