@@ -10,6 +10,7 @@ import com.br.nescaupower.KeepSoftAPI.Models.Tarefa;
 import com.br.nescaupower.KeepSoftAPI.Repository.TarefaRepository;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,11 +40,6 @@ public class TarefaController {
         return tarefaRepository.findAll();
     }
 
-    @GetMapping("findNamesByProjeto/{id}")
-    public List<String> findNamesByProjeto(@PathVariable(value = "id") Long tarefaId) {
-        return tarefaRepository.findNamesByProjeto(tarefaId);
-    }
-
     @GetMapping("/{id}")
     public Tarefa getTarefa(@PathVariable(value = "id") Long tarefaId) {
         return (Tarefa) tarefaRepository.findById(tarefaId)
@@ -54,7 +50,7 @@ public class TarefaController {
     public ResponseEntity<Tarefa> inserirTarefa(@Valid @RequestBody Tarefa tarefa) {
         SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
         boolean encontrado = false;
-        List<String> strings = tarefaRepository.findNamesByProjeto(tarefa.getPerfil().getProjeto().getCodigo());
+        List<String> strings = new ArrayList<>();//tarefaRepository.findNamesByProjeto(tarefa.getPerfil().getProjeto().getCodigo());
         for (String nome : strings) {
             if (nome.equals(tarefa.getTitulo())) {
                 encontrado = true;

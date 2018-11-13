@@ -47,6 +47,11 @@ public class StatusController {
         return (Status) statusRepository.findById(statusId)
                 .orElseThrow(() -> new ResourceNotFoundException("Status", "id", statusId));
     }
+
+    @GetMapping("findNamesByProjeto/{id}")
+    public List<String> findNamesByProjeto(@PathVariable(value = "id") Long tarefaId) {
+        return statusRepository.findNamesByProjeto(tarefaId);
+    }
     
     @PostMapping
     public ResponseEntity<Status> inserirStatus(@Valid @RequestBody Status status){
