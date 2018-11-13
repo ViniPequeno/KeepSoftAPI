@@ -41,12 +41,12 @@ public class Convite implements Serializable{
     @ManyToOne
     private Projeto projeto;
     
-    private String dataFormat;
+    private String dataEnvioFormat;
     private boolean visto = false;
     
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
-    private Date data;
+    private Date dataEnvio;
 
     public Long getId() {
         return id;
@@ -88,20 +88,20 @@ public class Convite implements Serializable{
         this.projeto = projeto;
     }
 
-    public Date getData() {
-        return data;
+    public Date getDataEnvio() {
+        return dataEnvio;
     }
 
-    public void setData(Date data) {
-        this.data = data;
+    public void setDataEnvio(Date dataEnvio) {
+        this.dataEnvio = dataEnvio;
     }
 
-    public String getDataFormat() {
-        return dataFormat;
+    public String getDataEnvioFormat() {
+        return dataEnvioFormat;
     }
 
-    public void setDataFormat(String dataFormat) {
-        this.dataFormat = dataFormat;
+    public void setDataEnvioFormat(String dataEnvioFormat) {
+        this.dataEnvioFormat = dataEnvioFormat;
     }
 
     public boolean isVisto() {

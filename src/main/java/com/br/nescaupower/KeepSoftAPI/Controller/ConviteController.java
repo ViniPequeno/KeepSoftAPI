@@ -75,16 +75,17 @@ public class ConviteController {
     }
 
     @PostMapping
-    public ResponseEntity<Convite> inserirConvite(@Valid @RequestBody Convite projeto) {
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss'Z'");
+    public ResponseEntity<Convite> inserirConvite(@Valid @RequestBody Convite convite) {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
         format.setTimeZone(TimeZone.getTimeZone("GMT-4:00"));
-        System.out.println(projeto.getDataFormat());
+        System.out.println(convite.getDataEnvioFormat()+"aa");
+        System.out.println(convite.getRemetenteId());
         try {
-            projeto.setData(format.parse(projeto.getDataFormat()));
+            convite.setDataEnvio(format.parse(convite.getDataEnvioFormat()));
         } catch (ParseException ex) {
         }
         
-        return ResponseEntity.ok(conviteRepository.save(projeto));
+        return ResponseEntity.ok(conviteRepository.save(convite));
     }
 
     @PutMapping("/{id}")
@@ -93,7 +94,7 @@ public class ConviteController {
         Convite convite = conviteRepository.findById(conviteId).
                 orElseThrow(() -> new ResourceNotFoundException("Convite", "convite", conviteId));
 
-        convite.setData(conviteUpdate.getData());
+        convite.setDataEnvio(conviteUpdate.getDataEnvio());
         convite.setProjeto(conviteUpdate.getProjeto());
         convite.setDestinatarioId(conviteUpdate.getDestinatarioId());
         convite.setRemetenteId(conviteUpdate.getRemetenteId());
