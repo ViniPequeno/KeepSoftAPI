@@ -42,6 +42,7 @@ public class Convite implements Serializable{
     private Projeto projeto;
     
     private String dataFormat;
+    private boolean visto = false;
     
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
@@ -102,4 +103,14 @@ public class Convite implements Serializable{
     public void setDataFormat(String dataFormat) {
         this.dataFormat = dataFormat;
     }
+
+    public boolean isVisto() {
+        return visto;
+    }
+
+    public void setVisto(boolean visto) {
+        this.visto = visto;
+    }
+    
+    
 }

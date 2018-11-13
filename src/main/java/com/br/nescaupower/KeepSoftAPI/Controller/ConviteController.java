@@ -93,6 +93,7 @@ public class ConviteController {
         convite.setRemetenteId(conviteUpdate.getRemetenteId());
         convite.setFuncao(conviteUpdate.getFuncao());
 
+        convite.setVisto(conviteUpdate.isVisto());
         return ResponseEntity.ok(conviteRepository.save(convite));
     }
 
