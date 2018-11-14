@@ -124,26 +124,30 @@ public class ProjetoController {
             Projeto projetoSalvo = projetoRepository.save(projeto);
 
             StatusController statusController = new StatusController();
+            String hexa;
             /////////////////////////////////////////////////////////////////////////////////////////////
             Status status = new Status();
             status.setProjeto(projetoSalvo);
             status.setNome("CRIADA");
             status.setDescricao("Uma tarefa que não foi iniciada ainda!");
-            status.setCor(0);
+            hexa = "#44bbdd";
+            status.setCor(Integer.parseInt(hexa, 16));
             statusRepository.save(status);
             ////////////////////////////////////////////////////////////////////////////////////////////
             Status status1 = new Status();
             status1.setProjeto(projetoSalvo);
             status1.setNome("DESENVOLMENTO");
             status1.setDescricao("Uma tarefa que está sendo desenvolvida!");
-            status1.setCor(1);
+            hexa = "#ddbb00";
+            status1.setCor(Integer.parseInt(hexa, 16));
             statusRepository.save(status1);
             ////////////////////////////////////////////////////////////////////////////////////////////
             Status status2 = new Status();
             status2.setProjeto(projetoSalvo);
             status2.setNome("CONCLUIDA");
             status2.setDescricao("Uma tarefa concluída");
-            status2.setCor(2);
+            hexa = "#aadd00";
+            status2.setCor(Integer.parseInt(hexa, 16));
             statusRepository.save(status2);
             ////////////////////////////////////////////////////////////////////////////////////////////
             return projetoSalvo;
