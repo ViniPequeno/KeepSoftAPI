@@ -22,13 +22,9 @@ import java.io.InputStream;
 import java.net.URLConnection;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.CacheControl;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -109,10 +105,18 @@ public class UsuarioController {
         return (Usuario) usuarioRepository.findByEmail(email);
     }
 
-    @GetMapping("/getByLoginOrName/{search}/{id}")
+    @GetMapping("/getByLoginOrName/{search}/{id}/{idProjeto}")
     public List<Usuario> getUsuarioByLoginOrName(@PathVariable(value = "search") String serach,
-            @PathVariable(value = "id") Long id) {
-        return usuarioRepository.findByLoginOrName("%" + serach + "%", "%" + serach + "%", id);
+            @PathVariable(value = "id") Long id, 
+            @PathVariable(value = "idProjeto") Long idProjeto) {
+        return usuarioRepository.findByLoginOrName("%" + serach + "%", "%" + serach + "%", id, idProjeto);
+    }
+    
+    @GetMapping("/getByLoginOrName//{id}/{idProjeto}")
+    public List<Usuario> getUsuarioByLoginOrNameNull(
+            @PathVariable(value = "id") Long id,
+            @PathVariable(value = "idProjeto") Long idProjeto) {
+        return null;
     }
 
     @PostMapping

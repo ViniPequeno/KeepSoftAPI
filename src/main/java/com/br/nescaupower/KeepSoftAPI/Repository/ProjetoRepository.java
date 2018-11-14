@@ -24,5 +24,11 @@ public interface ProjetoRepository extends JpaRepository<Projeto, Long>{
     @Query(value = "SELECT * FROM projeto p INNER JOIN perfil pe on p.codigo = pe.projeto_codigo "
             + " WHERE pe.usuario_id = ?1 AND pe.data_inicio_format != ''", nativeQuery = true)
     public List<Projeto> findByParticipantingUserID(Long userId);
+    
+    @Query(value = "SELECT * FROM projeto p WHERE p.nome = ? AND usuario_adm_id =?", nativeQuery = true)
+    public Projeto isExist(String nome, Long codigo);
+    
+    @Query(value = "SELECT * FROM projeto p WHERE p.nome = ? AND usuario_adm_id =? AND p.codigo <> ?", nativeQuery = true)
+    public Projeto isExist(String nome, Long id, Long codigo);
 }
 

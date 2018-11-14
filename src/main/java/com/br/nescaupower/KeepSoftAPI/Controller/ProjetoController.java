@@ -94,7 +94,7 @@ public class ProjetoController {
                 if (s.getNome().equals("CONCLUIDA")) {
                     tarefasFinalizadas++;
                 }
-            }else{
+            } else {
                 tarefasFinalizadas++;
             }
         }
@@ -112,62 +112,75 @@ public class ProjetoController {
     @PostMapping
     public Projeto inserirProjeto(@Valid @RequestBody Projeto projeto) {
 
-        SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
-        try {
-            projeto.setDataCriacao(formato.parse(projeto.getDataCriacaoFormat()));
-            projeto.setDataPrevFinalizacao(formato.parse(projeto.getDataPrevFinalizacaoFormat()));
-        } catch (ParseException ex) {
-        }
-        Projeto projetoSalvo = projetoRepository.save(projeto);
+        Projeto projetoTeste = projetoRepository.isExist(projeto.getNome(),
+                projeto.getUsuarioAdm().getId());
+        if (projetoTeste == null) {
+            SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+            try {
+                projeto.setDataCriacao(formato.parse(projeto.getDataCriacaoFormat()));
+                projeto.setDataPrevFinalizacao(formato.parse(projeto.getDataPrevFinalizacaoFormat()));
+            } catch (ParseException ex) {
+            }
+            Projeto projetoSalvo = projetoRepository.save(projeto);
 
-        StatusController statusController = new StatusController();
-        /////////////////////////////////////////////////////////////////////////////////////////////
-        Status status = new Status();
-        status.setProjeto(projetoSalvo);
-        status.setNome("CRIADA");
-        status.setDescricao("Uma tarefa que não foi iniciada ainda!");
-        status.setCor(0);
-        statusRepository.save(status);
-        ////////////////////////////////////////////////////////////////////////////////////////////
-        Status status1 = new Status();
-        status1.setProjeto(projetoSalvo);
-        status1.setNome("DESENVOLMENTO");
-        status1.setDescricao("Uma tarefa que está sendo desenvolvida!");
-        status1.setCor(1);
-        statusRepository.save(status1);
-        ////////////////////////////////////////////////////////////////////////////////////////////
-        Status status2 = new Status();
-        status2.setProjeto(projetoSalvo);
-        status2.setNome("CONCLUIDA");
-        status2.setDescricao("Uma tarefa concluída");
-        status2.setCor(2);
-        statusRepository.save(status2);
-        ////////////////////////////////////////////////////////////////////////////////////////////
-        return projetoSalvo;
+            StatusController statusController = new StatusController();
+            /////////////////////////////////////////////////////////////////////////////////////////////
+            Status status = new Status();
+            status.setProjeto(projetoSalvo);
+            status.setNome("CRIADA");
+            status.setDescricao("Uma tarefa que não foi iniciada ainda!");
+            status.setCor(0);
+            statusRepository.save(status);
+            ////////////////////////////////////////////////////////////////////////////////////////////
+            Status status1 = new Status();
+            status1.setProjeto(projetoSalvo);
+            status1.setNome("DESENVOLMENTO");
+            status1.setDescricao("Uma tarefa que está sendo desenvolvida!");
+            status1.setCor(1);
+            statusRepository.save(status1);
+            ////////////////////////////////////////////////////////////////////////////////////////////
+            Status status2 = new Status();
+            status2.setProjeto(projetoSalvo);
+            status2.setNome("CONCLUIDA");
+            status2.setDescricao("Uma tarefa concluída");
+            status2.setCor(2);
+            statusRepository.save(status2);
+            ////////////////////////////////////////////////////////////////////////////////////////////
+            return projetoSalvo;
+        } else {
+            return null;
+        }
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Projeto> atualizarProjeto(@PathVariable(value = "id") Long projetoId,
             @Valid @RequestBody Projeto projetoUpdate) {
-        Projeto projeto = projetoRepository.findById(projetoId).
-                orElseThrow(() -> new ResourceNotFoundException("Projeto", "projeto", projetoId));
 
-        projeto.setDataCriacaoFormat(projetoUpdate.getDataCriacaoFormat());
-        projeto.setDataFinalizacaoFormat(projetoUpdate.getDataFinalizacaoFormat());
-        projeto.setDataPrevFinalizacaoFormat(projetoUpdate.getDataPrevFinalizacaoFormat());
-        projeto.setDataFinalizacao(projetoUpdate.getDataFinalizacao());
-        projeto.setDataPrevFinalizacao(projetoUpdate.getDataPrevFinalizacao());
-        projeto.setDescricao(projetoUpdate.getDescricao());
-        projeto.setNome(projetoUpdate.getNome());
+        Projeto projetoTeste = projetoRepository.isExist(projetoUpdate.getNome(),
+                projetoUpdate.getUsuarioAdm().getId(), projetoUpdate.getCodigo());
+        if (projetoTeste == null) {
+            Projeto projeto = projetoRepository.findById(projetoId).
+                    orElseThrow(() -> new ResourceNotFoundException("Projeto", "projeto", projetoId));
 
-        SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
-        try {
-            projeto.setDataCriacao(formato.parse(projetoUpdate.getDataCriacaoFormat()));
-            projeto.setDataPrevFinalizacao(formato.parse(projetoUpdate.getDataPrevFinalizacaoFormat()));
-        } catch (ParseException ex) {
+            projeto.setDataCriacaoFormat(projetoUpdate.getDataCriacaoFormat());
+            projeto.setDataFinalizacaoFormat(projetoUpdate.getDataFinalizacaoFormat());
+            projeto.setDataPrevFinalizacaoFormat(projetoUpdate.getDataPrevFinalizacaoFormat());
+            projeto.setDataFinalizacao(projetoUpdate.getDataFinalizacao());
+            projeto.setDataPrevFinalizacao(projetoUpdate.getDataPrevFinalizacao());
+            projeto.setDescricao(projetoUpdate.getDescricao());
+            projeto.setNome(projetoUpdate.getNome());
+
+            SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+            try {
+                projeto.setDataCriacao(formato.parse(projetoUpdate.getDataCriacaoFormat()));
+                projeto.setDataPrevFinalizacao(formato.parse(projetoUpdate.getDataPrevFinalizacaoFormat()));
+            } catch (ParseException ex) {
+            }
+
+            return ResponseEntity.ok(projetoRepository.save(projeto));
+        } else {
+            return null;
         }
-
-        return ResponseEntity.ok(projetoRepository.save(projeto));
     }
 
     @DeleteMapping("/{id}")

@@ -28,22 +28,22 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/status")
 public class StatusController {
-    
+
     @Autowired
     StatusRepository statusRepository;
-    
+
     @GetMapping
-    public List<Status> getAllStatuss(){
+    public List<Status> getAllStatuss() {
         return statusRepository.findAll();
     }
-    
+
     @GetMapping("/findByProjeto/{id}")
-    public List<Status> getAllStatusFindByProjeto(@PathVariable(value = "id") Long projetoId){
+    public List<Status> getAllStatusFindByProjeto(@PathVariable(value = "id") Long projetoId) {
         return statusRepository.findByProjeto(projetoId);
     }
-    
+
     @GetMapping("/{id}")
-    public Status getStatus(@PathVariable(value = "id") Long statusId){
+    public Status getStatus(@PathVariable(value = "id") Long statusId) {
         return (Status) statusRepository.findById(statusId)
                 .orElseThrow(() -> new ResourceNotFoundException("Status", "id", statusId));
     }
@@ -52,38 +52,42 @@ public class StatusController {
     public List<String> findNamesByProjeto(@PathVariable(value = "id") Long tarefaId) {
         return statusRepository.findNamesByProjeto(tarefaId);
     }
-    
+
     @PostMapping
-    public ResponseEntity<Status> inserirStatus(@Valid @RequestBody Status status){
-        Status statusExist = statusRepository.isStatusExist(status.getNome(), status.getProjeto().getCodigo());
-        if(statusExist != null){
+    public ResponseEntity<Status> inserirStatus(@Valid @RequestBody Status status) {
+        Status statusExist = statusRepository.isStatusExist(status.getNome(), 
+                status.getProjeto().getCodigo());
+        if (statusExist != null) {
             return null;
         }
         return ResponseEntity.ok(statusRepository.save(status));
     }
 
-    
     @PutMapping("/{id}")
-    public ResponseEntity<Status> atualizarStatus(@PathVariable(value = "id") Long statusId, 
-            @Valid @RequestBody Status statusUpdate){
-        Status status = statusRepository.findById(statusId).
-                orElseThrow(() -> new ResourceNotFoundException("Status", "status", statusId));
-        
-        
-        status.setDescricao(statusUpdate.getDescricao());
-        status.setNome(statusUpdate.getNome());
-        status.setCor(statusUpdate.getCor());
-        
-        return ResponseEntity.ok(statusRepository.save(status));
+    public ResponseEntity<Status> atualizarStatus(@PathVariable(value = "id") Long statusId,
+            @Valid @RequestBody Status statusUpdate) {
+        if (statusRepository.isStatusExist(statusUpdate.getNome(), 
+                statusUpdate.getProjeto().getCodigo(), statusUpdate.getId()) == null) {
+            Status status = statusRepository.findById(statusId).
+                    orElseThrow(() -> new ResourceNotFoundException("Status", "status", statusId));
+
+            status.setDescricao(statusUpdate.getDescricao());
+            status.setNome(statusUpdate.getNome());
+            status.setCor(statusUpdate.getCor());
+
+            return ResponseEntity.ok(statusRepository.save(status));
+        } else {
+            return null;
+        }
     }
-    
+
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteStatus(@PathVariable(value = "id")  Long statusId){
+    public ResponseEntity<?> deleteStatus(@PathVariable(value = "id") Long statusId) {
         Status status = statusRepository.findById(statusId)
                 .orElseThrow(() -> new ResourceNotFoundException("Status", "id", statusId));
-        
+
         statusRepository.delete(status);
-        
-        return  ResponseEntity.ok().build();
+
+        return ResponseEntity.ok().build();
     }
 }

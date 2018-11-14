@@ -48,15 +48,9 @@ public class TarefaController {
 
     @PostMapping
     public ResponseEntity<Tarefa> inserirTarefa(@Valid @RequestBody Tarefa tarefa) {
+
         SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
-        boolean encontrado = false;
-        List<String> strings = new ArrayList<>();//tarefaRepository.findNamesByProjeto(tarefa.getPerfil().getProjeto().getCodigo());
-        for (String nome : strings) {
-            if (nome.equals(tarefa.getTitulo())) {
-                encontrado = true;
-            }
-        }
-        if (!encontrado) {
+        if (tarefaRepository.isExist(tarefa.getPerfil().getProjeto().getCodigo(), tarefa.getTitulo()) == null) {
             try {
                 tarefa.setDataLimite(formato.parse(tarefa.getDataLimiteformat()));
             } catch (ParseException ex) {
@@ -75,22 +69,27 @@ public class TarefaController {
     @PutMapping("/{id}")
     public ResponseEntity<Tarefa> atualizarTarefa(@PathVariable(value = "id") Long tarefaId,
             @Valid @RequestBody Tarefa tarefaUpdate) {
-        Tarefa tarefa = tarefaRepository.findById(tarefaId).
-                orElseThrow(() -> new ResourceNotFoundException("Tarefa", "tarefa", tarefaId));
+        if (tarefaRepository.isExist(tarefaUpdate.getPerfil().getProjeto().getCodigo(), 
+                tarefaUpdate.getTitulo(), tarefaUpdate.getId()) == null) {
+            Tarefa tarefa = tarefaRepository.findById(tarefaId).
+                    orElseThrow(() -> new ResourceNotFoundException("Tarefa", "tarefa", tarefaId));
 
-        tarefa.setDificuldade(tarefaUpdate.getDificuldade());
-        tarefa.setPrioridade(tarefaUpdate.getPrioridade());
-        tarefa.setDescricao(tarefaUpdate.getDescricao());
-        tarefa.setTitulo(tarefaUpdate.getTitulo());
+            tarefa.setDificuldade(tarefaUpdate.getDificuldade());
+            tarefa.setPrioridade(tarefaUpdate.getPrioridade());
+            tarefa.setDescricao(tarefaUpdate.getDescricao());
+            tarefa.setTitulo(tarefaUpdate.getTitulo());
 
-        tarefa.setPerfil(tarefaUpdate.getPerfil());
+            tarefa.setPerfil(tarefaUpdate.getPerfil());
 
-        SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
-        try {
-            tarefa.setDataLimite(formato.parse(tarefaUpdate.getDataLimiteformat()));
-        } catch (ParseException ex) {
+            SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+            try {
+                tarefa.setDataLimite(formato.parse(tarefaUpdate.getDataLimiteformat()));
+            } catch (ParseException ex) {
+            }
+            return ResponseEntity.ok(tarefaRepository.save(tarefa));
+        } else {
+            return null;
         }
-        return ResponseEntity.ok(tarefaRepository.save(tarefa));
     }
 
     @DeleteMapping("/{id}")

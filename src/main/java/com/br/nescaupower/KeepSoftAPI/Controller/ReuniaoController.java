@@ -35,126 +35,131 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/reuniao")
 public class ReuniaoController {
-    
+
     @Autowired
     ReuniaoRepository reuniaoRepository;
     @Autowired
     UsuarioRepository usuarioRepository;
-    
+
     @Autowired
     ReuniaoUsuarioRepository reuniaoUsuarioRepository;
-    
+
     @GetMapping
-    public List<Reuniao> getAllReuniaos(){
+    public List<Reuniao> getAllReuniaos() {
         return reuniaoRepository.findAll();
     }
-    
+
     @GetMapping("findByProjectID/{id}")
-    public List<Reuniao> findByProjectID(@PathVariable(value = "id") Long projetoId){
+    public List<Reuniao> findByProjectID(@PathVariable(value = "id") Long projetoId) {
         return reuniaoRepository.findByProjeto(projetoId);
     }
-    
-        
+
     @GetMapping("getUsuariosNotReuniao/{id}/{login}")
-    public List<Usuario> findUsuariosReunion(@PathVariable(value = "id") Long id, 
-            @PathVariable(value = "login") String login){
-        return usuarioRepository.getUsuariosNotReuniao("%"+login+"%", id);
+    public List<Usuario> findUsuariosReunion(@PathVariable(value = "id") Long id,
+            @PathVariable(value = "login") String login) {
+        return usuarioRepository.getUsuariosNotReuniao("%" + login + "%", id);
     }
 
     @GetMapping("getReuniaoUsuario/{reuniao}/{id}")
-    public ReuniaoUsuario findReuniaoUsuario(@PathVariable(value = "reuniao") Long reuniao, 
-            @PathVariable(value = "id") Long id){
-        
+    public ReuniaoUsuario findReuniaoUsuario(@PathVariable(value = "reuniao") Long reuniao,
+            @PathVariable(value = "id") Long id) {
+
         return reuniaoUsuarioRepository.findReuniaoUsuario(reuniao, id);
     }
-    
+
     @GetMapping("usuario/{id}")
-    public List<Usuario> findUsuario(@PathVariable(value = "id") Long id){
+    public List<Usuario> findUsuario(@PathVariable(value = "id") Long id) {
 //        Reuniao reuniao = reuniaoRepository.findById1(id);
         List<ReuniaoUsuario> list = reuniaoUsuarioRepository.findUsuario(id);
         List<Usuario> usuarios = new ArrayList<>();
-        for(ReuniaoUsuario reuniaoUsuario : list){
-           Usuario usuario = reuniaoUsuario.getUsuario();
-           usuarios.add(usuario);
+        for (ReuniaoUsuario reuniaoUsuario : list) {
+            Usuario usuario = reuniaoUsuario.getUsuario();
+            usuarios.add(usuario);
         }
         usuarios.remove(0);
         return usuarios;
     }
-    
+
     @GetMapping("/{id}")
-    public Reuniao getReuniao(@PathVariable(value = "id") Long reuniaoId){
+    public Reuniao getReuniao(@PathVariable(value = "id") Long reuniaoId) {
         return (Reuniao) reuniaoRepository.findById(reuniaoId)
                 .orElseThrow(() -> new ResourceNotFoundException("Reuniao", "id", reuniaoId));
     }
-    
-    
+
     @PostMapping("{id}")
     public Reuniao inserirReuniao(@PathVariable(value = "id") Long usuario,
-            @Valid @RequestBody Reuniao reuniao){
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        try {
-            if (!reuniao.getDataInicioFormat().equals("")) {
-                reuniao.setDataInicio(format.parse(reuniao.getDataInicioFormat()));
+            @Valid @RequestBody Reuniao reuniao) {
+        if (reuniaoRepository.isExist(reuniao.getProjeto().getCodigo(), reuniao.getNome()) == null) {
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            try {
+                if (!reuniao.getDataInicioFormat().equals("")) {
+                    reuniao.setDataInicio(format.parse(reuniao.getDataInicioFormat()));
+                }
+            } catch (ParseException ex) {
             }
-        } catch (ParseException ex) {
+            Reuniao r = reuniaoRepository.save(reuniao);
+            ReuniaoUsuario reuniaoUsuario = new ReuniaoUsuario();
+            reuniaoUsuario.setReuniao(r);
+            reuniaoUsuario.setUsuario(usuarioRepository.findById1(usuario));
+            reuniaoUsuarioRepository.save(reuniaoUsuario);
+            return r;
+        } else {
+            return null;
         }
-        Reuniao r = reuniaoRepository.save(reuniao);
-        ReuniaoUsuario reuniaoUsuario = new ReuniaoUsuario();
-        reuniaoUsuario.setReuniao(r);
-        reuniaoUsuario.setUsuario(usuarioRepository.findById1(usuario));
-        reuniaoUsuarioRepository.save(reuniaoUsuario);
-        return r;
     }
-    
+
     @PostMapping("/usuario")
-    public ResponseEntity<ReuniaoUsuario> inserirReuniaoUsuario(@Valid @RequestBody ReuniaoUsuario reuniao){
+    public ResponseEntity<ReuniaoUsuario> inserirReuniaoUsuario(@Valid @RequestBody ReuniaoUsuario reuniao) {
         return ResponseEntity.ok(reuniaoUsuarioRepository.save(reuniao));
     }
 
-    
     @PutMapping("/{id}")
-    public ResponseEntity<Reuniao> atualizarReuniao(@PathVariable(value = "id") Long reuniaoId, 
-            @Valid @RequestBody Reuniao reuniaoUpdate){
-        Reuniao reuniao = reuniaoRepository.findById(reuniaoId).
-                orElseThrow(() -> new ResourceNotFoundException("Reuniao", "reuniao", reuniaoId));
-        
-        reuniao.setAssunto(reuniaoUpdate.getAssunto());
-        reuniao.setNome(reuniaoUpdate.getNome());
-        reuniao.setResumo(reuniaoUpdate.getResumo());
-        reuniao.setRealizada(reuniaoUpdate.isRealizada());
-        reuniao.setHoraInicioFormat(reuniaoUpdate.getHoraInicioFormat());
-        reuniao.setHoraFimFormat(reuniaoUpdate.getHoraFimFormat());
-        reuniao.setLocal(reuniaoUpdate.getLocal());
-        
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        try {
-            if (!reuniao.getDataInicioFormat().equals("")) {
-                reuniao.setDataInicio(format.parse(reuniao.getDataInicioFormat()));
+    public ResponseEntity<Reuniao> atualizarReuniao(@PathVariable(value = "id") Long reuniaoId,
+            @Valid @RequestBody Reuniao reuniaoUpdate) {
+        if (reuniaoRepository.isExist(reuniaoUpdate.getProjeto().getCodigo(), 
+                reuniaoUpdate.getNome(), reuniaoUpdate.getId()) == null) {
+            Reuniao reuniao = reuniaoRepository.findById(reuniaoId).
+                    orElseThrow(() -> new ResourceNotFoundException("Reuniao", "reuniao", reuniaoId));
+
+            reuniao.setAssunto(reuniaoUpdate.getAssunto());
+            reuniao.setNome(reuniaoUpdate.getNome());
+            reuniao.setResumo(reuniaoUpdate.getResumo());
+            reuniao.setRealizada(reuniaoUpdate.isRealizada());
+            reuniao.setHoraInicioFormat(reuniaoUpdate.getHoraInicioFormat());
+            reuniao.setHoraFimFormat(reuniaoUpdate.getHoraFimFormat());
+            reuniao.setLocal(reuniaoUpdate.getLocal());
+
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            try {
+                if (!reuniao.getDataInicioFormat().equals("")) {
+                    reuniao.setDataInicio(format.parse(reuniao.getDataInicioFormat()));
+                }
+            } catch (ParseException ex) {
             }
-        } catch (ParseException ex) {
+
+            return ResponseEntity.ok(reuniaoRepository.save(reuniao));
+        } else {
+            return null;
         }
-        
-        
-        return ResponseEntity.ok(reuniaoRepository.save(reuniao));
     }
-    
+
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteReuniao(@PathVariable(value = "id")  Long reuniaoId){
+    public ResponseEntity<?> deleteReuniao(@PathVariable(value = "id") Long reuniaoId) {
         Reuniao reuniao = reuniaoRepository.findById(reuniaoId)
                 .orElseThrow(() -> new ResourceNotFoundException("Reuniao", "id", reuniaoId));
-        
+
         reuniaoRepository.delete(reuniao);
-        
-        return  ResponseEntity.ok().build();
+
+        return ResponseEntity.ok().build();
     }
-    
+
     @DeleteMapping("usuario/{id}")
-    public ResponseEntity<?> deleteReuniaoUsuario(@PathVariable(value = "id")  Long reuniaoId){
+    public ResponseEntity<?> deleteReuniaoUsuario(@PathVariable(value = "id") Long reuniaoId) {
         ReuniaoUsuario reuniao = reuniaoUsuarioRepository.findById(reuniaoId)
                 .orElseThrow(() -> new ResourceNotFoundException("Reuniao", "id", reuniaoId));
-        
+
         reuniaoUsuarioRepository.delete(reuniao);
-        
-        return  ResponseEntity.ok().build();
+
+        return ResponseEntity.ok().build();
     }
 }
