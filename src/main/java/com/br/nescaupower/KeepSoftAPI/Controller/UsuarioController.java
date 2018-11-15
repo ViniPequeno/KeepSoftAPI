@@ -55,6 +55,7 @@ public class UsuarioController {
     public List<Usuario> getAllUsuarios() {
         return usuarioRepository.findAll();
     }
+
     @CrossOrigin(origins = "*")
     @GetMapping("{id}")
     public Usuario getUsuario(@PathVariable(value = "id") Long usuarioId) {
@@ -156,7 +157,7 @@ public class UsuarioController {
         }
         return ResponseEntity.ok(usuarioRepository.save(usuario));
     }
-    
+
     @CrossOrigin(origins = "*")
     @PutMapping("/alterarSenha")
     public ResponseEntity<Usuario> atualizarSenhaUsuario(@Valid @RequestBody AlterarSenha alterarSenha) {
@@ -172,6 +173,19 @@ public class UsuarioController {
         } catch (NoSuchAlgorithmException ex) {
             return ResponseEntity.badRequest().body(null);
         }
+
+    }
+
+    @CrossOrigin(origins = "*")
+    @PutMapping("/confirmEmail/{id}")
+    public ResponseEntity<Usuario> confirmarEmail(@PathVariable(value = "id") Long usuarioId) {
+        Usuario usuario = usuarioRepository.findById(usuarioId).
+                orElseThrow(() -> new ResourceNotFoundException("Usuario", "usuario",
+                usuarioId));
+
+        usuario.setIsEmailVerification(true);
+
+        return ResponseEntity.ok(usuarioRepository.save(usuario));
 
     }
 

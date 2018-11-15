@@ -5,11 +5,10 @@
  */
 package com.br.nescaupower.KeepSoftAPI.Models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
-import java.sql.Blob;
+
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -19,7 +18,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -57,8 +55,7 @@ public class Usuario implements Serializable{
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Perfil> perfils;
     
-    
-    
+       
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @OneToMany(mappedBy = "reuniao", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ReuniaoUsuario> reuniaoUsuarios;
@@ -66,6 +63,8 @@ public class Usuario implements Serializable{
     
     private boolean receiverNotification = false;
     private boolean receiverEmail = false;
+    
+    private boolean isEmailVerification = false;
     
     public Usuario() {
     }
@@ -174,6 +173,14 @@ public class Usuario implements Serializable{
 
     public void setImagem(byte[] imagem) {
         this.imagem = imagem;
+    }
+
+    public boolean isIsEmailVerification() {
+        return isEmailVerification;
+    }
+
+    public void setIsEmailVerification(boolean isEmailVerification) {
+        this.isEmailVerification = isEmailVerification;
     }
 
     
