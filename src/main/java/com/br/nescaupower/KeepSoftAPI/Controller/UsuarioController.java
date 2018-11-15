@@ -29,6 +29,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -54,7 +55,7 @@ public class UsuarioController {
     public List<Usuario> getAllUsuarios() {
         return usuarioRepository.findAll();
     }
-
+    @CrossOrigin(origins = "*")
     @GetMapping("{id}")
     public Usuario getUsuario(@PathVariable(value = "id") Long usuarioId) {
         return (Usuario) usuarioRepository.findById(usuarioId)
@@ -67,7 +68,7 @@ public class UsuarioController {
         try {
             Usuario usuario = usuarioRepository.findById1(usuarioId);
             HttpHeaders headers = new HttpHeaders();
-            File file = new File("imagens/"+usuario.getLogin()+".png");
+            File file = new File("imagens/" + usuario.getLogin() + ".png");
             InputStream is = new BufferedInputStream(new FileInputStream(file));
             String mimeType = URLConnection.guessContentTypeFromStream(is);
             headers.setContentType(MediaType.valueOf(mimeType));
@@ -107,11 +108,11 @@ public class UsuarioController {
 
     @GetMapping("/getByLoginOrName/{search}/{id}/{idProjeto}")
     public List<Usuario> getUsuarioByLoginOrName(@PathVariable(value = "search") String serach,
-            @PathVariable(value = "id") Long id, 
+            @PathVariable(value = "id") Long id,
             @PathVariable(value = "idProjeto") Long idProjeto) {
         return usuarioRepository.findByLoginOrName("%" + serach + "%", "%" + serach + "%", id, idProjeto);
     }
-    
+
     @GetMapping("/getByLoginOrName//{id}/{idProjeto}")
     public List<Usuario> getUsuarioByLoginOrNameNull(
             @PathVariable(value = "id") Long id,
@@ -155,7 +156,8 @@ public class UsuarioController {
         }
         return ResponseEntity.ok(usuarioRepository.save(usuario));
     }
-
+    
+    @CrossOrigin(origins = "*")
     @PutMapping("/alterarSenha")
     public ResponseEntity<Usuario> atualizarSenhaUsuario(@Valid @RequestBody AlterarSenha alterarSenha) {
         Usuario usuario = usuarioRepository.findById(alterarSenha.getId()).
