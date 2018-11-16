@@ -45,6 +45,16 @@ public class TarefaStatusController {
                 .orElseThrow(() -> new ResourceNotFoundException("TarefaStatus", "id", tarefaStatusId));
     }
     
+    @GetMapping("/findByTarefa/{tarefaId}")
+    public List<TarefaStatus> findByTarefa(@PathVariable(value = "tarefaId") Long tarefaId){
+        return (List<TarefaStatus>) tarefasStatusRepository.findByTarefa(tarefaId);
+    }
+    
+    @GetMapping("/findByStatus/{statusId}")
+    public List<TarefaStatus> findByStatus(@PathVariable(value = "statusId") Long statusId){
+        return (List<TarefaStatus>) tarefasStatusRepository.findByStatus(statusId);
+    }
+    
     @PostMapping
     public ResponseEntity<TarefaStatus> inserirTarefaStatus(@Valid @RequestBody TarefaStatus tarefaStatus){
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");

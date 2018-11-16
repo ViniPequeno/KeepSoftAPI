@@ -19,8 +19,8 @@ public interface StatusRepository extends JpaRepository<Status, Long>{
     @Query(value = "SELECT * FROM status WHERE projeto_codigo = ?", nativeQuery = true)
     List<Status> findByProjeto(Long projetoId);
     
-    @Query(value = "SELECT * FROM status WHERE nome = ? and projeto_codigo = ?", nativeQuery = true)
-    Status findByNameInProjeto(String stNome, Long projetoId);
+    @Query(value = "SELECT * FROM status WHERE projeto_codigo = ? and nome = ?", nativeQuery = true)
+    Status findByNameInProjeto(Long projetoId, String statusNome);
     
     @Query(value = "SELECT * FROM status s WHERE s.nome = ? AND s.projeto_codigo = ?", nativeQuery = true)
     Status isStatusExist(String nome, Long projetoId);

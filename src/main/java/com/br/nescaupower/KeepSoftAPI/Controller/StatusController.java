@@ -38,7 +38,7 @@ public class StatusController {
     }
 
     @GetMapping("/findByProjeto/{id}")
-    public List<Status> getAllStatusFindByProjeto(@PathVariable(value = "id") Long projetoId) {
+    public List<Status> findByProjeto(@PathVariable(value = "id") Long projetoId) {
         return statusRepository.findByProjeto(projetoId);
     }
 
@@ -49,8 +49,13 @@ public class StatusController {
     }
 
     @GetMapping("findNamesByProjeto/{id}")
-    public List<String> findNamesByProjeto(@PathVariable(value = "id") Long tarefaId) {
-        return statusRepository.findNamesByProjeto(tarefaId);
+    public List<String> findNamesByProjeto(@PathVariable(value = "id") Long projetoId) {
+        return statusRepository.findNamesByProjeto(projetoId);
+    }
+    
+    @GetMapping("findByNameInProjeto/{projetoId}/{nomeStatus}")
+    public Status findByNameInProjeto(@PathVariable(value = "projetoId") Long projetoId, @PathVariable(value = "nomeStatus") String nomeStatus) {
+        return statusRepository.findByNameInProjeto(projetoId, nomeStatus);
     }
 
     @PostMapping

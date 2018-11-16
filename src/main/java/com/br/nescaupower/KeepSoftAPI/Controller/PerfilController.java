@@ -11,8 +11,6 @@ import com.br.nescaupower.KeepSoftAPI.Repository.PerfilRepository;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -37,7 +35,7 @@ public class PerfilController {
     PerfilRepository perfilRepository;
 
     @GetMapping
-    public List<Perfil> getAllConvitres() {
+    public List<Perfil> getAllConvites() {
         return perfilRepository.findAll();
     }
 

@@ -36,7 +36,7 @@ public class ConviteController {
     ConviteRepository conviteRepository;
 
     @GetMapping
-    public List<Convite> getAllConvitres() {
+    public List<Convite> getAllConvites() {
         return conviteRepository.findAll();
     }
 
