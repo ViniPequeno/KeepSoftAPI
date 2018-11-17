@@ -52,7 +52,10 @@ public class Tarefa implements Serializable {
     @ManyToOne
     private Perfil perfil;
 
-
+    @ManyToOne
+    private Sprint sprint;
+    
+    
     public Tarefa() {
     }
 
@@ -121,9 +124,14 @@ public class Tarefa implements Serializable {
         this.dataLimiteformat = dataLimiteformat;
     }
 
-   
-    
-    
-    
+    public Sprint getSprint() {
+        return sprint;
+    }
+
+    public void setSprint(Sprint sprint) {
+        this.sprint = sprint;
+    }
+
+      
     
 }
