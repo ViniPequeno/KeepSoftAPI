@@ -49,7 +49,7 @@ public class TarefaController {
     @PostMapping
     public ResponseEntity<Tarefa> inserirTarefa(@Valid @RequestBody Tarefa tarefa) {
 
-        SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
         if (tarefaRepository.isExist(tarefa.getPerfil().getProjeto().getCodigo(), tarefa.getTitulo()) == null) {
             try {
                 tarefa.setDataLimite(formato.parse(tarefa.getDataLimiteformat()));
@@ -81,7 +81,7 @@ public class TarefaController {
 
             tarefa.setPerfil(tarefaUpdate.getPerfil());
 
-            SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+            SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
             try {
                 tarefa.setDataLimite(formato.parse(tarefaUpdate.getDataLimiteformat()));
             } catch (ParseException ex) {
