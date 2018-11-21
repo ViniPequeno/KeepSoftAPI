@@ -130,7 +130,7 @@ public class ProjetoController {
             status.setProjeto(projetoSalvo);
             status.setNome("CRIADA");
             status.setDescricao("Uma tarefa que não foi iniciada ainda!");
-            hexa = "#44bbdd";
+            hexa = "44bbdd";
             status.setCor(Integer.parseInt(hexa, 16));
             statusRepository.save(status);
             ////////////////////////////////////////////////////////////////////////////////////////////
@@ -138,7 +138,7 @@ public class ProjetoController {
             status1.setProjeto(projetoSalvo);
             status1.setNome("DESENVOLMENTO");
             status1.setDescricao("Uma tarefa que está sendo desenvolvida!");
-            hexa = "#ddbb00";
+            hexa = "ddbb00";
             status1.setCor(Integer.parseInt(hexa, 16));
             statusRepository.save(status1);
             ////////////////////////////////////////////////////////////////////////////////////////////
@@ -146,7 +146,7 @@ public class ProjetoController {
             status2.setProjeto(projetoSalvo);
             status2.setNome("CONCLUIDA");
             status2.setDescricao("Uma tarefa concluída");
-            hexa = "#aadd00";
+            hexa = "aadd00";
             status2.setCor(Integer.parseInt(hexa, 16));
             statusRepository.save(status2);
             ////////////////////////////////////////////////////////////////////////////////////////////
