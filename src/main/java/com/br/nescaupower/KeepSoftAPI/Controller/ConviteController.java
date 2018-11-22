@@ -6,6 +6,7 @@
 package com.br.nescaupower.KeepSoftAPI.Controller;
 
 import com.br.nescaupower.KeepSoftAPI.Exception.ResourceNotFoundException;
+import com.br.nescaupower.KeepSoftAPI.Models.Auxiliares.QuantidadeNotificacoes;
 import com.br.nescaupower.KeepSoftAPI.Models.Convite;
 import com.br.nescaupower.KeepSoftAPI.Repository.ConviteRepository;
 import java.text.ParseException;
@@ -49,6 +50,13 @@ public class ConviteController {
     @GetMapping("/findByProjeto/{projeto}")
     public List<Convite> findByProjeto(@PathVariable(value = "projeto") Long projeto) {
         return conviteRepository.findByProjeto(projeto);
+    }
+    
+    @GetMapping("/findNotVistos/{destinario}")
+    public QuantidadeNotificacoes findNotVistos(@PathVariable(value = "destinario") Long destinario) {
+        QuantidadeNotificacoes qn = new QuantidadeNotificacoes();
+        qn.setQuantidade(conviteRepository.findNotVistos(destinario));
+        return qn;
     }
 
     @GetMapping("/findByReceiverID/{receiver}")

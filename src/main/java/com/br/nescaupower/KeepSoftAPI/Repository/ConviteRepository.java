@@ -5,6 +5,7 @@
  */
 package com.br.nescaupower.KeepSoftAPI.Repository;
 
+import com.br.nescaupower.KeepSoftAPI.Models.Auxiliares.QuantidadeNotificacoes;
 import com.br.nescaupower.KeepSoftAPI.Models.Convite;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -32,6 +33,6 @@ public interface ConviteRepository extends JpaRepository<Convite, Long>{
     @Query(value = "SELECT * FROM convite c WHERE c.destinatario_id_id= ? AND c.visto = 0", nativeQuery = true)
     public List<Convite> findByReceiverIDNotVistos(Long destinario);
     
-    @Query(value = "SELECT count(*) FROM convite c WHERE c.destinatario_id_id= ? AND c.visto = 0", nativeQuery = true)
-    public int[] findNotVistos(Long destinario);
+    @Query(value = "SELECT count(*) as quantidade FROM convite c WHERE c.destinatario_id_id= ? AND c.visto = 0", nativeQuery = true)
+    public int findNotVistos(Long destinario);
 }
