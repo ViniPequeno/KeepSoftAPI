@@ -6,6 +6,7 @@
 package com.br.nescaupower.KeepSoftAPI.Models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Entity;
@@ -38,8 +39,10 @@ public class TarefaStatus implements Serializable{
     
     private String dataInicioFormat;
     private String dataFimFormat;
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date dataInicio;
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date dataFim;
 
@@ -50,8 +53,7 @@ public class TarefaStatus implements Serializable{
     public void setId(Long id) {
         this.id = id;
     }
-
-
+    
     public Status getStatus() {
         return status;
     }
@@ -76,8 +78,6 @@ public class TarefaStatus implements Serializable{
         this.dataFim = dataFim;
     }
 
-    
-
     public Tarefa getTarefa() {
         return tarefa;
     }
@@ -101,7 +101,4 @@ public class TarefaStatus implements Serializable{
     public void setDataFimFormat(String dataFimFormat) {
         this.dataFimFormat = dataFimFormat;
     }
-    
-    
-      
 }

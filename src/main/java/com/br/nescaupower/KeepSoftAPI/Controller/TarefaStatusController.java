@@ -64,6 +64,7 @@ public class TarefaStatusController {
     public ResponseEntity<TarefaStatus> inserirTarefaStatus(@Valid @RequestBody TarefaStatus tarefaStatus){
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         try {
+            System.out.println(tarefaStatus.getDataInicioFormat());
             if (!tarefaStatus.getDataInicioFormat().equals("")) {
                 tarefaStatus.setDataInicio(format.parse(tarefaStatus.getDataInicioFormat()));
             }
