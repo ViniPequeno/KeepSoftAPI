@@ -45,6 +45,11 @@ public class TarefaStatusController {
                 .orElseThrow(() -> new ResourceNotFoundException("TarefaStatus", "id", tarefaStatusId));
     }
     
+    @GetMapping("/findCuurentStatusOfTarefa/{tarefaId}")
+    public TarefaStatus findCuurentStatusOfTarefa(@PathVariable(value = "tarefaId") Long tarefaId){
+        return (TarefaStatus) tarefasStatusRepository.findCuurentStatusOfTarefa(tarefaId);
+    }
+    
     @GetMapping("/findByTarefa/{tarefaId}")
     public List<TarefaStatus> findByTarefa(@PathVariable(value = "tarefaId") Long tarefaId){
         return (List<TarefaStatus>) tarefasStatusRepository.findByTarefa(tarefaId);

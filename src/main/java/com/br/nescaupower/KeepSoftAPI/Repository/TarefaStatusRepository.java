@@ -17,7 +17,7 @@ import org.springframework.data.jpa.repository.Query;
 public interface TarefaStatusRepository extends JpaRepository<TarefaStatus, Long> {
 
     @Query(value = "SELECT * FROM tarefa_status WHERE tarefa_id = ? AND data_fim is null", nativeQuery = true)
-    public TarefaStatus findStatusOfTarefa(Long tarefaId);
+    public TarefaStatus findCuurentStatusOfTarefa(Long tarefaId);
 
     @Query(value = "SELECT * FROM tarefa_status WHERE tarefa_id = ?", nativeQuery = true)
     public List<TarefaStatus> findByTarefa(Long tarefaId);
