@@ -62,7 +62,7 @@ public class TarefaStatusController {
     
     @PostMapping
     public ResponseEntity<TarefaStatus> inserirTarefaStatus(@Valid @RequestBody TarefaStatus tarefaStatus){
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
         try {
             System.out.println(tarefaStatus.getDataInicioFormat());
             if (!tarefaStatus.getDataInicioFormat().equals("")) {
@@ -88,7 +88,9 @@ public class TarefaStatusController {
         tarefaStatus.setTarefa(tarefaStatusUpdate.getTarefa());
         tarefaStatus.setStatus(tarefaStatusUpdate.getStatus());
         
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        System.out.println("dateFim: "+tarefaStatus.getDataFimFormat()+" olá mundo");
+        
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
         try {
             if (!tarefaStatus.getDataInicioFormat().equals("")) {
                 tarefaStatus.setDataInicio(format.parse(tarefaStatus.getDataInicioFormat()));

@@ -73,9 +73,9 @@ public class UsuarioController {
             InputStream is = new BufferedInputStream(new FileInputStream(file));
             String mimeType = URLConnection.guessContentTypeFromStream(is);
             headers.setContentType(MediaType.valueOf(mimeType));
-            return new ResponseEntity<byte[]>(getImagem(is), headers, HttpStatus.OK);
+            return new ResponseEntity<>(getImagem(is), headers, HttpStatus.OK);
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            System.out.println("Foto não encontrada");
         } catch (IOException e) {
             e.printStackTrace();
         }

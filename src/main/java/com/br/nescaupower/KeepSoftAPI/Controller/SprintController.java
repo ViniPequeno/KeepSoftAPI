@@ -62,8 +62,8 @@ public class SprintController {
         return sprintRepository.getCountInProject(projetoId);
     }
     
-    @GetMapping("/findNamesByProjeto/{id}")
-    public List<String> findNamesByProjeto(@PathVariable(value = "id") Long projetoId) {
+    @GetMapping("/findTitlesByProject/{id}")
+    public List<String> findTitlesByProject(@PathVariable(value = "id") Long projetoId) {
         return sprintRepository.findNamesByProjeto(projetoId);
     }
 

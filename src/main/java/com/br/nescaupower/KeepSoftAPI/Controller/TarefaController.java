@@ -80,6 +80,7 @@ public class TarefaController {
             tarefa.setTitulo(tarefaUpdate.getTitulo());
 
             tarefa.setPerfil(tarefaUpdate.getPerfil());
+            tarefa.setSprint(tarefaUpdate.getSprint());
 
             SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
             try {
