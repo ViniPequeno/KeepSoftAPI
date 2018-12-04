@@ -56,6 +56,16 @@ public class SprintController {
     public List<Sprint> findByProjectID(@PathVariable(value = "projetoId") Long projetoId) {
         return sprintRepository.findByProjectID(projetoId);
     }
+    
+    @GetMapping("/getCountInProject/{projetoId}")
+    public int getCountInProject(@PathVariable(value = "projetoId") Long projetoId) {
+        return sprintRepository.getCountInProject(projetoId);
+    }
+    
+    @GetMapping("/findNamesByProjeto/{id}")
+    public List<String> findNamesByProjeto(@PathVariable(value = "id") Long projetoId) {
+        return sprintRepository.findNamesByProjeto(projetoId);
+    }
 
     @PostMapping
     public ResponseEntity<Sprint> inserirSprint(@Valid @RequestBody Sprint sprint) {
@@ -105,8 +115,7 @@ public class SprintController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteSprint(@PathVariable(value = "id") Long sprintId
-    ) {
+    public ResponseEntity<?> deleteSprint(@PathVariable(value = "id") Long sprintId) {
         Sprint sprint = sprintRepository.findById(sprintId)
                 .orElseThrow(() -> new ResourceNotFoundException("Sprint", "id", sprintId));
 

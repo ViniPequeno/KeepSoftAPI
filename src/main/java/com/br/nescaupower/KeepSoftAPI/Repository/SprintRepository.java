@@ -22,6 +22,13 @@ public interface SprintRepository extends JpaRepository<Sprint, Long>{
     @Query(value ="SELECT * FROM sprint s WHERE s.projeto_codigo= ?", nativeQuery = true)
     public List<Sprint> findByProjectID(Long projeto);
     
+    @Query(value ="SELECT count(*) FROM sprint s WHERE s.projeto_codigo= ?", nativeQuery = true)
+    public int getCountInProject(Long projeto);
+    
+    @Query(value = "SELECT s.titulo FROM sprint s "
+            + "WHERE s.projeto_codigo = ?", nativeQuery = true)
+    public List<String> findNamesByProjeto(Long projetoId);
+    
     @Query(value = "SELECT * FROM sprint s WHERE s.projeto_codigo = ? AND s.titulo = ?", nativeQuery = true)
     public Sprint isExist(Long projeto, String titulo);
     
