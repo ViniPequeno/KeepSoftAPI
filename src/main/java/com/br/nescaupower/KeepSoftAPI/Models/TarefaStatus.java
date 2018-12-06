@@ -46,6 +46,21 @@ public class TarefaStatus implements Serializable{
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date dataFim;
 
+    public TarefaStatus() {
+    }
+
+    public TarefaStatus(Long id, Tarefa tarefa, Status status, String dataInicioFormat, String dataFimFormat, Date dataInicio, Date dataFim) {
+        this.id = id;
+        this.tarefa = tarefa;
+        this.status = status;
+        this.dataInicioFormat = dataInicioFormat;
+        this.dataFimFormat = dataFimFormat;
+        this.dataInicio = dataInicio;
+        this.dataFim = dataFim;
+    }
+    
+    
+
     public Long getId() {
         return id;
     }

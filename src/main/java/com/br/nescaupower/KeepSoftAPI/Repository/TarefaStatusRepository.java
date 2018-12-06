@@ -24,4 +24,5 @@ public interface TarefaStatusRepository extends JpaRepository<TarefaStatus, Long
 
     @Query(value = "SELECT * FROM tarefa_status WHERE status_id = ?", nativeQuery = true)
     public List<TarefaStatus> findByStatus(Long statusId);
+    
 }

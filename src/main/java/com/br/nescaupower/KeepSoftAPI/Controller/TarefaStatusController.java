@@ -10,7 +10,10 @@ import com.br.nescaupower.KeepSoftAPI.Models.TarefaStatus;
 import com.br.nescaupower.KeepSoftAPI.Repository.TarefaStatusRepository;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -64,7 +67,6 @@ public class TarefaStatusController {
     public ResponseEntity<TarefaStatus> inserirTarefaStatus(@Valid @RequestBody TarefaStatus tarefaStatus){
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
         try {
-            System.out.println(tarefaStatus.getDataInicioFormat());
             if (!tarefaStatus.getDataInicioFormat().equals("")) {
                 tarefaStatus.setDataInicio(format.parse(tarefaStatus.getDataInicioFormat()));
             }
@@ -73,6 +75,15 @@ public class TarefaStatusController {
             }
         } catch (ParseException ex) {
         }
+        TarefaStatus ts = tarefasStatusRepository.findCuurentStatusOfTarefa(tarefaStatus.getTarefa().getId());
+        Date data = new Date(System.currentTimeMillis());
+        ts.setDataFimFormat(format.format(data));
+        try {
+            ts.setDataFim(format.parse(ts.getDataFimFormat()));
+        } catch (ParseException ex) {
+            Logger.getLogger(TarefaStatusController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        tarefasStatusRepository.save(ts);
         return ResponseEntity.ok(tarefasStatusRepository.save(tarefaStatus));
     }
 
