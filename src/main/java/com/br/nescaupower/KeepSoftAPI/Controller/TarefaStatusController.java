@@ -76,14 +76,16 @@ public class TarefaStatusController {
         } catch (ParseException ex) {
         }
         TarefaStatus ts = tarefasStatusRepository.findCuurentStatusOfTarefa(tarefaStatus.getTarefa().getId());
-        Date data = new Date(System.currentTimeMillis());
-        ts.setDataFimFormat(format.format(data));
-        try {
-            ts.setDataFim(format.parse(ts.getDataFimFormat()));
-        } catch (ParseException ex) {
-            Logger.getLogger(TarefaStatusController.class.getName()).log(Level.SEVERE, null, ex);
+        if(ts!=null){
+            Date data = new Date(System.currentTimeMillis());
+            ts.setDataFimFormat(format.format(data));
+            try {
+                ts.setDataFim(format.parse(ts.getDataFimFormat()));
+            } catch (ParseException ex) {
+                Logger.getLogger(TarefaStatusController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            tarefasStatusRepository.save(ts);
         }
-        tarefasStatusRepository.save(ts);
         return ResponseEntity.ok(tarefasStatusRepository.save(tarefaStatus));
     }
 
@@ -94,8 +96,6 @@ public class TarefaStatusController {
         TarefaStatus tarefaStatus = tarefasStatusRepository.findById(tarefaStatusId).
                 orElseThrow(() -> new ResourceNotFoundException("TarefaStatus", "tarefaStatus", tarefaStatusId));
         
-        tarefaStatus.setDataInicio(tarefaStatusUpdate.getDataInicio());
-        tarefaStatus.setDataFim(tarefaStatusUpdate.getDataFim());
         tarefaStatus.setTarefa(tarefaStatusUpdate.getTarefa());
         tarefaStatus.setStatus(tarefaStatusUpdate.getStatus());
         
