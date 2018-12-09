@@ -75,20 +75,8 @@ public class TarefaStatusController {
             }
         } catch (ParseException ex) {
         }
-        TarefaStatus ts = tarefasStatusRepository.findCuurentStatusOfTarefa(tarefaStatus.getTarefa().getId());
-        if(ts!=null){
-            Date data = new Date(System.currentTimeMillis());
-            ts.setDataFimFormat(format.format(data));
-            try {
-                ts.setDataFim(format.parse(ts.getDataFimFormat()));
-            } catch (ParseException ex) {
-                Logger.getLogger(TarefaStatusController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            tarefasStatusRepository.save(ts);
-        }
         return ResponseEntity.ok(tarefasStatusRepository.save(tarefaStatus));
     }
-
     
     @PutMapping("/{id}")
     public ResponseEntity<TarefaStatus> atualizarTarefaStatus(@PathVariable(value = "id") Long tarefaStatusId, 
@@ -98,20 +86,21 @@ public class TarefaStatusController {
         
         tarefaStatus.setTarefa(tarefaStatusUpdate.getTarefa());
         tarefaStatus.setStatus(tarefaStatusUpdate.getStatus());
+        tarefaStatus.setDataFimFormat(tarefaStatusUpdate.getDataFimFormat());
         
-        System.out.println("dateFim: "+tarefaStatus.getDataFimFormat()+" olá mundo");
+        System.out.println("dateFim: "+tarefaStatusUpdate.getDataFimFormat()+" olá mundo");
         
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
         try {
-            if (!tarefaStatus.getDataInicioFormat().equals("")) {
-                tarefaStatus.setDataInicio(format.parse(tarefaStatus.getDataInicioFormat()));
+            if (!tarefaStatusUpdate.getDataInicioFormat().equals("")) {
+                tarefaStatus.setDataInicio(format.parse(tarefaStatusUpdate.getDataInicioFormat()));
             }
-            if (!tarefaStatus.getDataFimFormat().equals("")) {
-                tarefaStatus.setDataFim(format.parse(tarefaStatus.getDataFimFormat()));
+            if (!tarefaStatusUpdate.getDataFimFormat().equals("")) {
+                tarefaStatus.setDataFim(format.parse(tarefaStatusUpdate.getDataFimFormat()));
             }
         } catch (ParseException ex) {
+            ex.printStackTrace();
         }
-        
         return ResponseEntity.ok(tarefasStatusRepository.save(tarefaStatus));
     }
     

@@ -65,6 +65,11 @@ public class TarefaController {
     public List<Tarefa> findByProjeto(@PathVariable(value = "projeto") Long projeto) {
         return tarefaRepository.findByProjeto(projeto);
     }
+    
+    @GetMapping("/findBySprint/{sprint}")
+    public List<Tarefa> findBySprint(@PathVariable(value = "sprint") Long sprint) {
+        return tarefaRepository.findBySprint(sprint);
+    }
 
     @PutMapping("/{id}")
     public ResponseEntity<Tarefa> atualizarTarefa(@PathVariable(value = "id") Long tarefaId,

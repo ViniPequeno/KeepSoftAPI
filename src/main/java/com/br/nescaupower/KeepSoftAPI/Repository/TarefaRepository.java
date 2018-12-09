@@ -20,6 +20,9 @@ public interface TarefaRepository extends JpaRepository<Tarefa, Long>{
             + "ON t.perfil_id = p.id WHERE p.projeto_codigo = ?", nativeQuery = true)
     public List<Tarefa> findByProjeto(Long id);
     
+    @Query(value = "SELECT * FROM tarefa t where t.sprint_id = ?", nativeQuery = true)
+    public List<Tarefa> findBySprint(Long sprintId);
+    
     @Query(value = "SELECT * FROM tarefa t INNER JOIN perfil p "
             + "ON t.perfil_id = p.id WHERE p.projeto_codigo =? AND t.titulo =?", nativeQuery = true)
     public Tarefa isExist(Long projeto, String titulo);
