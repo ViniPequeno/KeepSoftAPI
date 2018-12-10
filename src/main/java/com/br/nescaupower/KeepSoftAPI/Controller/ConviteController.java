@@ -86,8 +86,6 @@ public class ConviteController {
     public ResponseEntity<Convite> inserirConvite(@Valid @RequestBody Convite convite) {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
         format.setTimeZone(TimeZone.getTimeZone("GMT-4:00"));
-        System.out.println(convite.getDataEnvioFormat()+"aa");
-        System.out.println(convite.getRemetenteId());
         try {
             convite.setDataEnvio(format.parse(convite.getDataEnvioFormat()));
         } catch (ParseException ex) {

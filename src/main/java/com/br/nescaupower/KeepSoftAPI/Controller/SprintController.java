@@ -107,7 +107,6 @@ public class SprintController {
             } catch (ParseException ex) {
                 Logger.getLogger(SprintController.class.getName()).log(Level.SEVERE, null, ex);
             }
-            System.out.println("Editou "+sprint.getTitulo());
             return ResponseEntity.ok(sprintRepository.save(sprint));
         } else {
             return null;

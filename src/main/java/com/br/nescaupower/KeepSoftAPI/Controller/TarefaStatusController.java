@@ -88,7 +88,6 @@ public class TarefaStatusController {
         tarefaStatus.setStatus(tarefaStatusUpdate.getStatus());
         tarefaStatus.setDataFimFormat(tarefaStatusUpdate.getDataFimFormat());
         
-        System.out.println("dateFim: "+tarefaStatusUpdate.getDataFimFormat()+" olá mundo");
         
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
         try {

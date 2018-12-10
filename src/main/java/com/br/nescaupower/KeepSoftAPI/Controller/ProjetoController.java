@@ -88,7 +88,6 @@ public class ProjetoController {
         List<Tarefa> tarefas = tarefaRepository.findByProjeto(id);
         int tarefasFinalizadas = 0;
         for (Tarefa tarefa : tarefas) {
-            System.out.println(""+tarefa.getId());
             TarefaStatus ts = tarefaStatusRepository.findCuurentStatusOfTarefa(tarefa.getId());
             if (ts != null) {
                 Status s = ts.getStatus();

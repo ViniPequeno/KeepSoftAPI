@@ -82,7 +82,6 @@ public class PerfilController {
         perfil.setUsuario(perfilUpdate.getUsuario());
         
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        System.out.println("Perfil: "+perfil.getDataInicioFormat()+" oi");
         try {
             if (!perfil.getDataInicioFormat().equals("")) {
                 perfil.setDataInicio(format.parse(perfil.getDataInicioFormat()));
