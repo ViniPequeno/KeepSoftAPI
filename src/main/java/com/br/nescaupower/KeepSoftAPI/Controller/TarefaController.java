@@ -46,6 +46,16 @@ public class TarefaController {
                 .orElseThrow(() -> new ResourceNotFoundException("Tarefa", "id", tarefaId));
     }
 
+    @GetMapping("/findByProjeto/{projeto}")
+    public List<Tarefa> findByProjeto(@PathVariable(value = "projeto") Long projeto) {
+        return tarefaRepository.findByProjeto(projeto);
+    }
+    
+    @GetMapping("/findBySprint/{sprint}")
+    public List<Tarefa> findBySprint(@PathVariable(value = "sprint") Long sprint) {
+        return tarefaRepository.findBySprint(sprint);
+    }
+
     @PostMapping
     public ResponseEntity<Tarefa> inserirTarefa(@Valid @RequestBody Tarefa tarefa) {
 
@@ -59,16 +69,6 @@ public class TarefaController {
         } else {
             return null;
         }
-    }
-
-    @GetMapping("/findByProjeto/{projeto}")
-    public List<Tarefa> findByProjeto(@PathVariable(value = "projeto") Long projeto) {
-        return tarefaRepository.findByProjeto(projeto);
-    }
-    
-    @GetMapping("/findBySprint/{sprint}")
-    public List<Tarefa> findBySprint(@PathVariable(value = "sprint") Long sprint) {
-        return tarefaRepository.findBySprint(sprint);
     }
 
     @PutMapping("/{id}")

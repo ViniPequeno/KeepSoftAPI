@@ -141,8 +141,8 @@ public class UsuarioController {
         usuario.setEmail(usuarioUpdate.getEmail());
         usuario.setNome(usuarioUpdate.getNome());
         usuario.setTelefone(usuarioUpdate.getTelefone());
-        usuario.setReceiverEmail(usuarioUpdate.isReceiverEmail());
-        usuario.setReceiverNotification(usuarioUpdate.isReceiverNotification());
+        usuario.setReceiveEmail(usuarioUpdate.isReceiveEmail());
+        usuario.setReceiveNotification(usuarioUpdate.isReceiveNotification());
         usuario.setImagem(usuarioUpdate.getImagem());
         try {
             File file = new File("imagens/" + usuario.getLogin() + ".png");
@@ -183,7 +183,7 @@ public class UsuarioController {
                 orElseThrow(() -> new ResourceNotFoundException("Usuario", "usuario",
                 usuarioId));
 
-        usuario.setIsEmailVerification(true);
+        usuario.setEmailVerificated(true);
 
         return ResponseEntity.ok(usuarioRepository.save(usuario));
 

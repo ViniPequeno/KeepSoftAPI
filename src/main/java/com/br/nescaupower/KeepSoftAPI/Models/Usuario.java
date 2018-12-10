@@ -54,17 +54,15 @@ public class Usuario implements Serializable{
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Perfil> perfils;
-    
        
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @OneToMany(mappedBy = "reuniao", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ReuniaoUsuario> reuniaoUsuarios;
 
+    private boolean receiveNotification = false;
+    private boolean receiveEmail = false;
     
-    private boolean receiverNotification = false;
-    private boolean receiverEmail = false;
-    
-    private boolean isEmailVerification = false;
+    private boolean emailVerificated = false;
     
     public Usuario() {
     }
@@ -151,20 +149,20 @@ public class Usuario implements Serializable{
         this.reuniaoUsuarios = reuniaoUsuarios;
     }
 
-    public boolean isReceiverNotification() {
-        return receiverNotification;
+    public boolean isReceiveNotification() {
+        return receiveNotification;
     }
 
-    public void setReceiverNotification(boolean receiverNotification) {
-        this.receiverNotification = receiverNotification;
+    public void setReceiveNotification(boolean receiveNotification) {
+        this.receiveNotification = receiveNotification;
     }
 
-    public boolean isReceiverEmail() {
-        return receiverEmail;
+    public boolean isReceiveEmail() {
+        return receiveEmail;
     }
 
-    public void setReceiverEmail(boolean receiverEmail) {
-        this.receiverEmail = receiverEmail;
+    public void setReceiveEmail(boolean receiveEmail) {
+        this.receiveEmail = receiveEmail;
     }
 
     public byte[] getImagem() {
@@ -175,14 +173,11 @@ public class Usuario implements Serializable{
         this.imagem = imagem;
     }
 
-    public boolean isIsEmailVerification() {
-        return isEmailVerification;
+    public boolean isEmailVerificated() {
+        return emailVerificated;
     }
 
-    public void setIsEmailVerification(boolean isEmailVerification) {
-        this.isEmailVerification = isEmailVerification;
+    public void setEmailVerificated(boolean emailVerificated) {
+        this.emailVerificated = emailVerificated;
     }
-
-    
-    
 }

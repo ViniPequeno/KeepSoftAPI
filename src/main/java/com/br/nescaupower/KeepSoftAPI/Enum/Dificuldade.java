@@ -10,7 +10,7 @@ package com.br.nescaupower.KeepSoftAPI.Enum;
  * @author developer
  */
 public enum Dificuldade {
-    FACIL("Fácil"), MEDIO("Médio"), DIFICL("Difícil");
+    FACIL("Fácil"), MEDIO("Médio"), DIFICL("Difícil"), MUITO_DIFICIL("Muito Difícil");
 
     private String dificuldade;
 
